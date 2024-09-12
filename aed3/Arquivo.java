@@ -1,6 +1,5 @@
 package aed3;
 
-
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
@@ -146,8 +145,6 @@ public class Arquivo<T extends Registro> {
         }
         return false;
     }
-
-    
 
     public void close() throws Exception {
         arquivo.close();
