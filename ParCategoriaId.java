@@ -27,6 +27,14 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
     }
   }
 
+  public int getId() {
+    return this.id;
+  }
+
+  public int getIdCategoria() {
+    return this.idCategoria;
+  } 
+
   @Override
   public ParCategoriaId clone() {
     return new ParCategoriaId(this.id, this.idCategoria);

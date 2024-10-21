@@ -27,6 +27,14 @@ public class ParNomeId implements aed3.RegistroArvoreBMais<ParNomeId> {
     this.id = i;
   }
 
+  public int getId() {
+    return this.id;
+  }
+
+  public String getNome() {
+    return this.nome;
+  }
+
   @Override
   public ParNomeId clone() {
     try {

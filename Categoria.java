@@ -30,6 +30,14 @@ public class Categoria implements Registro {
         return id;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
     public String toString() {
         return "\nID..: " + this.id +
                "\nNome: " + this.nome;
