@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class MenuCategorias {
+public class MenuTarefas {
     
     ArquivoCategoria arqCategorias;
     private static Scanner console = new Scanner(System.in);
 
-    public MenuCategorias() throws Exception {
+    public MenuTarefas() throws Exception {
         arqCategorias = new ArquivoCategoria();
     }
 
@@ -16,7 +16,7 @@ public class MenuCategorias {
 
             System.out.println("AEDsIII");
             System.out.println("-------");
-            System.out.println("\n> Início > Categorias");
+            System.out.println("\n> Início > Tarefas");
             System.out.println("1 - Buscar");
             System.out.println("2 - Incluir");
             System.out.println("3 - Alterar");

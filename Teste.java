@@ -1,7 +1,9 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 import aed3.Arquivo;
+
 
 public class Teste {
 
@@ -11,10 +13,11 @@ public class Teste {
   public static void main(String[] args) {
 
     // Tarefas de exemplo
-    Tarefa t1 = new Tarefa(-1, "Tarefa 1", LocalDate.now(), null, (short) 0, (short) 1);
-    Tarefa t2 = new Tarefa(-1, "Tarefa 2", LocalDate.now(), null, (short) 0, (short) 2);
-    Tarefa t3 = new Tarefa(-1, "Tarefa 3", LocalDate.now(), null, (short) 0, (short) 3);
-    int id1, id2, id3;
+    Tarefa t1 = new Tarefa(-1, 0, "Tarefa 1", LocalDate.now(), null, (short) 0, (short) 1);
+    Tarefa t2 = new Tarefa(-1, 0, "Tarefa 2", LocalDate.now(), null, (short) 0, (short) 2);
+    Tarefa t3 = new Tarefa(-1, 0, "Tarefa 3", LocalDate.now(), null, (short) 0, (short) 3);
+    int id1, id2, id3,opcao;
+    Scanner console = new Scanner(System.in);
 
     try {
 
@@ -51,6 +54,36 @@ public class Teste {
         System.out.println("Tarefa excluída");
       else
         System.out.println(t);
+
+
+      //Interface TP2
+            System.out.println("1 - Tarefas");
+            System.out.println("2 - Categorias");
+            System.out.println("0 - Sair");
+            try {
+              opcao = Integer.valueOf(console.nextLine());
+            } 
+            catch(NumberFormatException e) {
+              opcao = -1;
+            }
+            MenuCategorias categoria = new MenuCategorias();
+            switch (opcao) {
+              case 1:
+                  // buscarCategoria();
+                  break;
+              case 2:
+                  categoria.menu();
+                  break;
+              case 0:
+              console.close();
+                  break;
+              default:
+                  System.out.println("Opção inválida!");
+                  break;
+          }
+
+
+
 
     } catch (Exception e) {
       e.printStackTrace();
