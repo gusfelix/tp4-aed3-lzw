@@ -1,7 +1,5 @@
-import java.time.LocalDate;
-
 import aed3.Registro;
-
+import java.time.LocalDate;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -12,6 +10,7 @@ public class Tarefa implements Registro {
 
     // Atributos da classe
     public int id;
+    public int idCategoria;
     public String nome;
     public LocalDate criacao;
     public LocalDate conclusao;
@@ -20,15 +19,16 @@ public class Tarefa implements Registro {
 
     // Construtores
     public Tarefa() {
-        this(-1, "", LocalDate.now(), null, (short) 0, (short) 0);
+        this(-1, -1, "", LocalDate.now(), null, (short) 0, (short) 0);
     }
 
-    public Tarefa(String nome, LocalDate criacao, short status, short prioridade) {
-        this(-1, nome, criacao, null, status, prioridade);
+    public Tarefa(int idCategoria, String nome, LocalDate criacao, short status, short prioridade) {
+        this(-1, idCategoria, nome, criacao, null, status, prioridade);
     }
 
-    public Tarefa(int id, String nome, LocalDate criacao, LocalDate conclusao, short status, short prioridade) {
+    public Tarefa(int id, int idCategoria, String nome, LocalDate criacao, LocalDate conclusao, short status, short prioridade) {
         this.id = id;
+        this.idCategoria = idCategoria;
         this.nome = nome;
         this.criacao = criacao;
         this.conclusao = conclusao;
@@ -43,6 +43,14 @@ public class Tarefa implements Registro {
 
     public int getId() {
         return id;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
     }
 
     public void setNome(String nome) {
@@ -88,6 +96,7 @@ public class Tarefa implements Registro {
     // Método toString para exibir as informações da tarefa
     public String toString() {
         return "\nID.........: " + this.id +
+               "\nID Categoria: " + this.idCategoria +
                "\nNome.......: " + this.nome +
                "\nCriação....: " + this.criacao +
                "\nConclusão..: " + (this.conclusao != null ? this.conclusao : "Ainda não concluída") +
@@ -100,6 +109,7 @@ public class Tarefa implements Registro {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
         dos.writeInt(this.id);
+        dos.writeInt(this.idCategoria);
         dos.writeUTF(this.nome);
         dos.writeInt((int) this.criacao.toEpochDay());
         dos.writeInt(this.conclusao != null ? (int) this.conclusao.toEpochDay() : -1); // -1 indica que não foi concluída
@@ -114,6 +124,7 @@ public class Tarefa implements Registro {
         DataInputStream dis = new DataInputStream(bais);
 
         this.id = dis.readInt();
+        this.idCategoria = dis.readInt();
         this.nome = dis.readUTF();
         this.criacao = LocalDate.ofEpochDay(dis.readInt());
         int conclusaoEpochDay = dis.readInt();
@@ -122,5 +133,3 @@ public class Tarefa implements Registro {
         this.prioridade = dis.readShort();
     }
 }
-
-
