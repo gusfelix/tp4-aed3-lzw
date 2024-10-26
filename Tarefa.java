@@ -16,6 +16,8 @@ public class Tarefa implements Registro {
     public LocalDate conclusao;
     public short status;
     public short prioridade;
+    public char[] cate;
+    public char[] categoria;
 
     // Construtores
     public Tarefa() {

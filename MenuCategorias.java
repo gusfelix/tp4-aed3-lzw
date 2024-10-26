@@ -44,7 +44,7 @@ public class MenuCategorias {
                     excluirCategoria();
                     break;
                 case 0:
-                
+                    Teste.main(null);
                     break;
                 default:
                     System.out.println("Opção inválida!");
@@ -145,7 +145,7 @@ public class MenuCategorias {
         String nome;
         boolean dadosCompletos = false;
 
-        System.out.println("\nAlterar categoria");
+        System.out.println("\nExcuir categoria");
         do {
             System.out.print("\nNome da categoria (min. de 5 letras): ");
             nome = console.nextLine();
@@ -158,12 +158,12 @@ public class MenuCategorias {
         if(nome.length()==0) 
             return;
 
-        System.out.println("Confirma a alteração da categoria? (S/N) ");
+        System.out.println("Confirma a exclusão da categoria? (S/N) ");
         char resp = console.nextLine().charAt(0);
         if(resp=='S' || resp=='s') {
             try {
                 if(arqCategorias.delete(nome))
-                System.out.println("Categoria atualizada com sucesso.");
+                System.out.println("Categoria excluída com sucesso.");
                 else
                 System.out.println("Categoria inexistente");
             } catch(Exception e) {

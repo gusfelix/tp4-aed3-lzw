@@ -24,7 +24,7 @@ public class Teste {
       // Abre (cria) o arquivo de tarefas
       new File("tarefas.db").delete();  // apaga o arquivo anterior (apenas para testes)
       arqTarefas = new Arquivo<>("tarefas", Tarefa.class.getConstructor());
-
+      /* 
       // Insere as três tarefas
       id1 = arqTarefas.create(t1); 
       t1.setId(id1);
@@ -54,7 +54,7 @@ public class Teste {
         System.out.println("Tarefa excluída");
       else
         System.out.println(t);
-
+          */
 
       //Interface TP2
             System.out.println("1 - Tarefas");
@@ -67,9 +67,10 @@ public class Teste {
               opcao = -1;
             }
             MenuCategorias categoria = new MenuCategorias();
+            MenuTarefas tarefa = new MenuTarefas();
             switch (opcao) {
               case 1:
-                  // buscarCategoria();
+                  tarefa.menu();
                   break;
               case 2:
                   categoria.menu();
