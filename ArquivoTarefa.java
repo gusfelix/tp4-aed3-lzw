@@ -22,7 +22,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
     }
 
     public ArrayList<Tarefa> readByCategoria(int categoriaId) throws Exception {
-        ArrayList<ParCategoriaId> pciList = indiceIndiretoCategoria.read(new ParCategoriaId(categoriaId));
+        ArrayList<ParCategoriaId> pciList = indiceIndiretoCategoria.read(new ParCategoriaId(-1, categoriaId));
         ArrayList<Tarefa> tarefas = new ArrayList<>();
 
         if (pciList.isEmpty()) {

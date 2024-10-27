@@ -2,10 +2,12 @@ import java.util.ArrayList;
 
 public class ControleTarefas {
     private ArquivoTarefa arqTarefas;
+    private ArquivoCategoria arqCategorias;
     private VisaoTarefas visaoTarefas;
 
     public ControleTarefas() throws Exception {
         arqTarefas = new ArquivoTarefa();
+        arqCategorias = new ArquivoCategoria();
         visaoTarefas = new VisaoTarefas();
     }
 
@@ -16,7 +18,7 @@ public class ControleTarefas {
             switch (opcao) {
                 case 1:
                     incluirTarefa();
-                break;
+                    break;
                 case 2:
                     buscarTarefa();
                     break;
@@ -29,6 +31,9 @@ public class ControleTarefas {
                 case 5:
                     listarTarefas();
                     break;
+                case 6:
+                    listarTarefasPorCategoria();
+                    break;
                 case 0:
                     break;
                 default:
@@ -38,7 +43,18 @@ public class ControleTarefas {
     }
 
     private void incluirTarefa() throws Exception {
-        Tarefa novaTarefa = visaoTarefas.leTarefa();
+        ArrayList<Categoria> categorias = arqCategorias.readAll();
+        if (categorias.isEmpty()) {
+            System.out.println("Nenhuma categoria cadastrada. Cadastre uma categoria antes de incluir uma tarefa.");
+            return;
+        }
+
+        visaoTarefas.mostrarCategorias(categorias);
+
+        int numeroCategoria = visaoTarefas.selecionaCategoria(categorias.size());
+        int idCategoria = categorias.get(numeroCategoria - 1).getId();
+
+        Tarefa novaTarefa = visaoTarefas.leTarefa(idCategoria);
         int idGerado = arqTarefas.create(novaTarefa);
         novaTarefa.setId(idGerado);
         System.out.println("Tarefa incluída com sucesso.");
@@ -58,7 +74,13 @@ public class ControleTarefas {
         int id = visaoTarefas.leIdTarefa();
         Tarefa tarefaAntiga = arqTarefas.read(id);
         if (tarefaAntiga != null) {
-            Tarefa novaTarefa = visaoTarefas.leTarefa();
+            ArrayList<Categoria> categorias = arqCategorias.readAll();
+            visaoTarefas.mostrarCategorias(categorias);
+
+            int numeroCategoria = visaoTarefas.selecionaCategoria(categorias.size());
+            int idCategoria = categorias.get(numeroCategoria - 1).getId();
+
+            Tarefa novaTarefa = visaoTarefas.leTarefa(idCategoria);
             novaTarefa.setId(id);
             if (arqTarefas.update(novaTarefa)) {
                 System.out.println("Tarefa alterada com sucesso.");
@@ -91,6 +113,22 @@ public class ControleTarefas {
             }
         } catch (Exception e) {
             System.out.println("Erro ao listar tarefas: " + e.getMessage());
+        }
+    }
+
+    private void listarTarefasPorCategoria() {
+        try {
+            int idCategoria = visaoTarefas.leIdCategoria();
+            ArrayList<Tarefa> tarefas = arqTarefas.readByCategoria(idCategoria);
+            if (tarefas.isEmpty()) {
+                System.out.println("Nenhuma tarefa encontrada para a categoria informada.");
+            } else {
+                for (Tarefa tarefa : tarefas) {
+                    visaoTarefas.mostraTarefa(tarefa);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar tarefas por categoria: " + e.getMessage());
         }
     }
 }
