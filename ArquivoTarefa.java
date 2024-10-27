@@ -17,7 +17,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
     @Override
     public int create(Tarefa t) throws Exception {
         int id = super.create(t);
-        indiceIndiretoCategoria.create(new ParCategoriaId(t.getIdCategoria(), id));
+        indiceIndiretoCategoria.create(new ParCategoriaId(id, t.getIdCategoria()));
         return id;
     }
 
@@ -58,11 +58,22 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         Tarefa tarefaAntiga = read(novaTarefa.getId());
         if (super.update(novaTarefa)) {
             if (tarefaAntiga != null && novaTarefa.getIdCategoria() != tarefaAntiga.getIdCategoria()) {
-                indiceIndiretoCategoria.delete(new ParCategoriaId(tarefaAntiga.getIdCategoria(), tarefaAntiga.getId())); // Remove a entrada antiga
-                indiceIndiretoCategoria.create(new ParCategoriaId(novaTarefa.getIdCategoria(), novaTarefa.getId())); // Adiciona a nova entrada
+                indiceIndiretoCategoria.delete(new ParCategoriaId(tarefaAntiga.getIdCategoria(), tarefaAntiga.getId()));
+                indiceIndiretoCategoria.create(new ParCategoriaId(novaTarefa.getIdCategoria(), novaTarefa.getId()));
             }
             return true;
         }
         return false;
+    }
+
+    public ArrayList<Tarefa> readAll() throws Exception {
+        ArrayList<Tarefa> tarefas = new ArrayList<>();
+        for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
+            Tarefa tarefa = super.read(pci.getId());
+            if (tarefa != null) {
+                tarefas.add(tarefa);
+            }
+        }
+        return tarefas;
     }
 }

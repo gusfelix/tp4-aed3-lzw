@@ -1,15 +1,12 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuTarefas {
     
-    ArquivoTarefa arqTarefas;
+    ArquivoCategoria arqCategorias;
     private static Scanner console = new Scanner(System.in);
 
     public MenuTarefas() throws Exception {
-        arqTarefas = new ArquivoTarefa();
+        arqCategorias = new ArquivoCategoria();
     }
 
     public void menu() {
@@ -35,19 +32,19 @@ public class MenuTarefas {
 
             switch (opcao) {
                 case 1:
-                    buscarTarefa();
+                    buscarCategoria();
                     break;
                 case 2:
-                    incluirTarefa();
+                    incluirCategoria();
                     break;
                 case 3:
-                    alterarTarefa();
+                    alterarCategoria();
                     break;
                 case 4:
-                    excluirTarefa();
+                    excluirCategoria();
                     break;
                 case 0:
-                Teste.main(null);
+                
                     break;
                 default:
                     System.out.println("Opção inválida!");
@@ -57,147 +54,123 @@ public class MenuTarefas {
         } while (opcao != 0);
     }
 
-    public void incluirTarefa() {
+    public void incluirCategoria() {
         String nome;
         boolean dadosCompletos = false;
 
-        System.out.println("\nInclusão de tarefa");
+        System.out.println("\nInclusão de categoria");
         do {
-            System.out.print("\nNome da tarefa (min. de 5 letras): ");
+            System.out.print("\nNome da categoria (min. de 5 letras): ");
             nome = console.nextLine();
             if(nome.length()>=5 || nome.length()==0)
                 dadosCompletos = true;
             else 
-                System.err.println("O nome da tarefa deve ter no mínimo 5 caracteres.");
+                System.err.println("O nome da categoria deve ter no mínimo 5 caracteres.");
         } while(!dadosCompletos);
 
         if(nome.length()==0) 
             return;
 
-        System.out.println("Categoria (índice): ");
-        int categoria = Integer.parseInt(console.nextLine());
-        System.out.println("Data de início: ");
-        LocalDate dataini = null, datafim = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        dataini = LocalDate.parse(console.nextLine(),formatter);
-        System.out.println("Data de fim: ");
-        datafim = LocalDate.parse(console.nextLine(),formatter);
-        System.out.println("Status: ");
-        int status = Integer.parseInt(console.nextLine());
-        System.out.println("Prioridade: ");
-        int prioridade = Integer.parseInt(console.nextLine());
-        System.out.println("Confirma a inclusão da tarefa? (S/N) ");
+        System.out.println("Confirma a inclusão da categoria? (S/N) ");
         char resp = console.nextLine().charAt(0);
         if(resp=='S' || resp=='s') {
             try {
-                Tarefa c = new Tarefa(-1, categoria, nome, dataini, datafim, (short) status, (short) prioridade);
-                arqTarefas.create(c);
-                System.out.println("Tarefa criada com sucesso.");
-                System.out.println("ID: "+c.id);
-                System.out.println("Nome: "+c.nome);
-                System.out.println("Categoria: "+c.idCategoria);
-                
+                Categoria c = new Categoria(nome);
+                arqCategorias.create(c);
+                System.out.println("Categoria criada com sucesso.");
             } catch(Exception e) {
                 System.out.println("Erro do sistema. Não foi possível criar a categoria!");
             }
         }
     }
 
-    public void buscarTarefa(){
-        int indice;
-    
-        Tarefa t;
-
-        System.out.println("\nBuscar tarefas");
-    
-        System.out.println("\nId da tarefa: ");
-        indice = Integer.parseInt(console.nextLine());
-       
-        try {
-            t = arqTarefas.read(indice);
-            if(t!=null)
-            System.out.println(t.toString());
-            else
-            System.out.println("tarefa não encontrada");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
-        
-        
-    }
-    
-    public void alterarTarefa(){
+    public void buscarCategoria(){
         String nome;
         boolean dadosCompletos = false;
 
-        System.out.println("\nAlteração de tarefa");
+        System.out.println("\nBuscar categoria");
         do {
-            System.out.print("\nNome da tarefa (min. de 5 letras): ");
+            System.out.print("\nNome da categoria (min. de 5 letras): ");
             nome = console.nextLine();
             if(nome.length()>=5 || nome.length()==0)
                 dadosCompletos = true;
             else 
-                System.err.println("O nome da tarefa deve ter no mínimo 5 caracteres.");
+                System.err.println("O nome da categoria deve ter no mínimo 5 caracteres.");
         } while(!dadosCompletos);
 
         if(nome.length()==0) 
             return;
 
-        System.out.println("Categoria (índice): ");
-        int categoria = Integer.parseInt(console.nextLine());
-        System.out.println("Data de início: ");
-        LocalDate dataini = null, datafim = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        dataini = LocalDate.parse(console.nextLine(),formatter);
-        System.out.println("Data de fim: ");
-        datafim = LocalDate.parse(console.nextLine(),formatter);
-        System.out.println("Status: ");
-        int status = Integer.parseInt(console.nextLine());
-        System.out.println("Prioridade: ");
-        int prioridade = Integer.parseInt(console.nextLine());
-        System.out.println("Confirma a inclusão da tarefa? (S/N) ");
-        char resp = console.nextLine().charAt(0);
-        if(resp=='S' || resp=='s') {
             try {
-                Tarefa c = new Tarefa(-1, categoria, nome, dataini, datafim, (short) status, (short) prioridade);
-                arqTarefas.update(c);
-                System.out.println("Tarefa alterada com sucesso.");
-                System.out.println("ID: "+c.id);
-                System.out.println("Nome: "+c.nome);
-                System.out.println("Categoria: "+c.idCategoria);
-                
+                Categoria c = arqCategorias.read(nome);
+                System.out.println(c.toString());
             } catch(Exception e) {
-                System.out.println("Erro do sistema. Não foi possível alterar a tarefa!");
+                System.out.println("Categoria não encontrada!");
             }
-        }
-    }
-
-    public void excluirTarefa(){
-        int id;
-
-        System.out.println("\nExcluir tarefas");
-    
-        System.out.println("\nId da tarefa: ");
-        id = Integer.parseInt(console.nextLine());
-        System.out.println("Confirma a exclusão da tarefa? (S/N) ");
-        char resp = console.nextLine().charAt(0);
-        if(resp=='S' || resp=='s') {
-            try {
-                if(arqTarefas.delete(id))
-                System.out.println("Excluída com sucesso");
-                else
-                System.out.println("Tarefa não encontrada");
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        
         
     }
-    
+
+    public void alterarCategoria(){
+        String nome;
+        boolean dadosCompletos = false;
+
+        System.out.println("\nAlterar categoria");
+        do {
+            System.out.print("\nNome da categoria (min. de 5 letras): ");
+            nome = console.nextLine();
+            if(nome.length()>=5 || nome.length()==0)
+                dadosCompletos = true;
+            else 
+                System.err.println("O nome da categoria deve ter no mínimo 5 caracteres.");
+        } while(!dadosCompletos);
+
+        if(nome.length()==0) 
+            return;
+
+        System.out.println("Confirma a alteração da categoria? (S/N) ");
+        char resp = console.nextLine().charAt(0);
+        if(resp=='S' || resp=='s') {
+            try {
+                Categoria c = new Categoria(nome);
+                arqCategorias.update(c);
+                System.out.println("Categoria atualizada com sucesso.");
+            } catch(Exception e) {
+                System.out.println("Erro do sistema. Não foi possível criar a categoria!");
+            }
+        }
+    }
+
+    public void excluirCategoria(){
+        String nome;
+        boolean dadosCompletos = false;
+
+        System.out.println("\nAlterar categoria");
+        do {
+            System.out.print("\nNome da categoria (min. de 5 letras): ");
+            nome = console.nextLine();
+            if(nome.length()>=5 || nome.length()==0)
+                dadosCompletos = true;
+            else 
+                System.err.println("O nome da categoria deve ter no mínimo 5 caracteres.");
+        } while(!dadosCompletos);
+
+        if(nome.length()==0) 
+            return;
+
+        System.out.println("Confirma a alteração da categoria? (S/N) ");
+        char resp = console.nextLine().charAt(0);
+        if(resp=='S' || resp=='s') {
+            try {
+                if(arqCategorias.delete(nome))
+                System.out.println("Categoria atualizada com sucesso.");
+                else
+                System.out.println("Categoria inexistente");
+            } catch(Exception e) {
+                System.out.println("Erro do sistema. Não foi possível excluir a categoria!");
+            }
+        }
+    }
 
 
 }
