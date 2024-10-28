@@ -45,10 +45,14 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
   }
 
   public int compareTo(ParCategoriaId a) {
-    if (this.id != a.id)
-      return this.id - a.id;
-    else
-      return this.idCategoria == -1 ? 0 : this.idCategoria - a.idCategoria;
+    if (this.id == -1 || a.id == -1) {
+        return this.idCategoria == -1 ? 0 : this.idCategoria - a.idCategoria;
+    }
+    if (this.id != a.id) {
+        return this.id - a.id;
+    } else {
+        return this.idCategoria - a.idCategoria;
+    }
   }
 
   public String toString() {
