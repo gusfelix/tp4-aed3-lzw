@@ -13,7 +13,6 @@ public class TextProcessor {
     private Set<String> stopWords;
     private ListaInvertida listaInvertida;
 
-
     // Construtor que carrega as stop words automaticamente
     public TextProcessor() throws Exception {
         this.stopWords = loadStopWords();
@@ -25,21 +24,19 @@ public class TextProcessor {
     }
 
     // Método público para processar texto
-    //public String processText(String text) {
     public String[] processText(String text) {
         // Divide o texto em palavras
         List<String> words = Arrays.asList(text.split("\\s+"));
 
         // Remove stop words e aplica transformações
         List<String> processedWords = words.stream()
-                .map(TextProcessor::removeAccents)
+                .map(TextProcessor::normalizeText)
                 .map(String::toLowerCase)
                 .filter(word -> !stopWords.contains(word))
                 .collect(Collectors.toList());
 
         // Retorna o resultado como array
         return processedWords.toArray(new String[0]);
-        //return String.join(" ", processedWords);
     }
 
     // Método privado para carregar stop words do arquivo
@@ -54,10 +51,13 @@ public class TextProcessor {
         return stopWords;
     }
 
-    // Método privado para remover acentos de uma string
-    private static String removeAccents(String text) {
-        return Normalizer.normalize(text, Normalizer.Form.NFD)
-                .replaceAll("\\p{M}", "");
+    // Método privado para remover acentos e pontuação de uma string
+    private static String normalizeText(String text) {
+        // Normaliza o texto para remover acentos
+        String noAccents = Normalizer.normalize(text, Normalizer.Form.NFD)
+                                      .replaceAll("\\p{M}", "");
+        // Remove pontuações
+        return noAccents.replaceAll("[\\p{Punct}]", "");
     }
 
     public float calcularTF(String termo, String[] termos) {

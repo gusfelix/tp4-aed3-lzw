@@ -23,15 +23,19 @@ public class ControleTarefas {
                     buscarTarefa();
                     break;
                 case 3:
-                    alterarTarefa();
+                    String busca = visaoTarefas.leBusca();
+                    buscarTarefasPorTermos(busca);
                     break;
                 case 4:
-                    excluirTarefa();
+                    alterarTarefa();
                     break;
                 case 5:
-                    listarTarefas();
+                    excluirTarefa();
                     break;
                 case 6:
+                    listarTarefas();
+                    break;
+                case 7:
                     listarTarefasPorCategoria();
                     break;
                 case 0:
@@ -70,6 +74,21 @@ public class ControleTarefas {
         }
     }
 
+    private void buscarTarefasPorTermos(String busca) {
+        try {
+            ArrayList<Tarefa> tarefas = arqTarefas.readAllByTerms(busca);
+            if (tarefas.isEmpty()) {
+                System.out.println("Nenhuma tarefa encontrada.");
+            } else {
+                for (Tarefa tarefa : tarefas) {
+                    visaoTarefas.mostraTarefa(tarefa);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar tarefas: " + e.getMessage());
+        }
+    }
+
     private void alterarTarefa() throws Exception {
         int id = visaoTarefas.leIdTarefa();
         Tarefa tarefaAntiga = arqTarefas.read(id);
@@ -101,22 +120,7 @@ public class ControleTarefas {
         }
     }
 
-    private void listarTarefas() {
-        try {
-            ArrayList<Tarefa> tarefas = arqTarefas.readAll();
-            if (tarefas.isEmpty()) {
-                System.out.println("Nenhuma tarefa encontrada.");
-            } else {
-                for (Tarefa tarefa : tarefas) {
-                    visaoTarefas.mostraTarefa(tarefa);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao listar tarefas: " + e.getMessage());
-        }
-    }
-
-    private void listarTarefasPorTermos(String busca) {
+    private void listarTarefas() throws Exception {
         try {
             ArrayList<Tarefa> tarefas = arqTarefas.readAll();
             if (tarefas.isEmpty()) {

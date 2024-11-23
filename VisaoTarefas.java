@@ -22,6 +22,12 @@ public class VisaoTarefas {
         return new Tarefa(idCategoria, nome, LocalDate.now(), (short) 0, prioridade);
     }
 
+    public String leBusca() {
+        System.out.print("Termos da busca: ");
+        String busca = sc.nextLine();
+        return busca;
+    }
+
     public int leIdTarefa() {
         System.out.print("Digite o ID da tarefa: ");
         return Integer.parseInt(sc.nextLine());
@@ -42,11 +48,11 @@ public class VisaoTarefas {
         System.out.println("> Início > Tarefas");
         System.out.println("1) Incluir");
         System.out.println("2) Buscar por ID");
-        System.out.println("3) Alterar");
-        System.out.println("4) Excluir");
-        System.out.println("5) Listar");
-        System.out.println("6) Listar por Categoria");
-        System.out.println("7) Buscar por termos");
+        System.out.println("3) Buscar por termos");
+        System.out.println("4) Alterar");
+        System.out.println("5) Excluir");
+        System.out.println("6) Listar");
+        System.out.println("7) Listar por Categoria");
         System.out.println("0) Retornar ao menu anterior");
 
         System.out.print("Opção: ");

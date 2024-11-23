@@ -98,8 +98,6 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
     public ArrayList<Tarefa> readAll() throws Exception {
 
-        System.out.println(listaInvertida.numeroEntidades());
-
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
             Tarefa tarefa = super.read(pci.getId());
@@ -141,16 +139,20 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
             resultado.add(new ElementoLista(entry.getKey(), entry.getValue()));
         }
 
-        
-        // System.out.println(listaDados[0]);
+        resultado.sort((e1, e2) -> Float.compare(e2.getFrequencia(), e1.getFrequencia()));
+
+        // for (ElementoLista elemento : resultado) {
+        //     System.out.println("("+ elemento.getId() +", "+ elemento.getFrequencia() +")");
+        // }
 
         ArrayList<Tarefa> tarefas = new ArrayList<>();
-        for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
-            Tarefa tarefa = super.read(pci.getId());
+        for (ElementoLista elemento : resultado) {
+            Tarefa tarefa = read(elemento.getId()); // Obter a tarefa pelo ID
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
         }
+    
         return tarefas;
     }
 }
