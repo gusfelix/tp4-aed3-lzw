@@ -1,9 +1,14 @@
 import aed3.*;
+import util.*;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
     private ArvoreBMais<ParCategoriaId> indiceIndiretoCategoria;
+    private ListaInvertida listaInvertida;
 
     public ArquivoTarefa() throws Exception {
         super("tarefas", Tarefa.class.getConstructor());
@@ -12,11 +17,26 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
             4,
             ".\\dados\\indiceCategoria.db"
         );
+        listaInvertida = new ListaInvertida(
+            4, 
+            "dados/dicionario.listainv.db", 
+            "dados/blocos.listainv.db"
+        );
     }
 
     @Override
     public int create(Tarefa t) throws Exception {
+
         int id = super.create(t);
+        TextProcessor txtPcsr = new TextProcessor();
+        String[] termos = txtPcsr.processText(t.getNome());
+
+        for(String termo : termos){
+            listaInvertida.create(termo, new ElementoLista(id, txtPcsr.calcularTF(termo, termos)));
+        }
+
+        listaInvertida.incrementaEntidades();
+        
         indiceIndiretoCategoria.create(new ParCategoriaId(id, t.getIdCategoria()));
         return id;
     }
@@ -41,9 +61,19 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
     public boolean delete(int tarefaId) throws Exception {
         Tarefa tarefa = read(tarefaId);
+
         if (tarefa == null) {
             return false; 
         }
+
+        TextProcessor txtPcsr = new TextProcessor();
+        String[] termos = txtPcsr.processText(tarefa.getNome());
+
+        for(String termo : termos){
+            listaInvertida.delete(termo, tarefa.getId());
+        }
+
+        listaInvertida.decrementaEntidades();
     
         boolean removed = super.delete(tarefaId);
         if (removed) {
@@ -67,6 +97,53 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
     }
 
     public ArrayList<Tarefa> readAll() throws Exception {
+
+        System.out.println(listaInvertida.numeroEntidades());
+
+        ArrayList<Tarefa> tarefas = new ArrayList<>();
+        for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
+            Tarefa tarefa = super.read(pci.getId());
+            if (tarefa != null) {
+                tarefas.add(tarefa);
+            }
+        }
+        return tarefas;
+    }
+
+    public ArrayList<Tarefa> readAllByTerms(String busca) throws Exception {
+
+        TextProcessor txtPcsr = new TextProcessor();
+        String[] termos = txtPcsr.processText(busca);
+
+        ElementoLista elementoTmp;
+        ArrayList<ElementoLista> listaFinal = new ArrayList<>();
+
+        for(String termo : termos){
+            float IDF = txtPcsr.calcularIDF(termo);
+            ElementoLista[] listaDados = listaInvertida.read(termo);
+
+            for(ElementoLista elemento : listaDados){
+                elementoTmp =  new ElementoLista(elemento.getId(), elemento.getFrequencia()*IDF);
+                listaFinal.add(elementoTmp);
+            }
+        }
+
+        Map<Integer, Float> mapSomas = new HashMap<>();
+
+        // Somar as frequências por id
+        for (ElementoLista elemento : listaFinal) {
+            mapSomas.put(elemento.getId(), mapSomas.getOrDefault(elemento.getId(), 0.0f) + elemento.getFrequencia());
+        }
+
+        // Criar uma lista de novos ElementosLista com id único e frequências somadas
+        ArrayList<ElementoLista> resultado = new ArrayList<>();
+        for (Map.Entry<Integer, Float> entry : mapSomas.entrySet()) {
+            resultado.add(new ElementoLista(entry.getKey(), entry.getValue()));
+        }
+
+        
+        // System.out.println(listaDados[0]);
+
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
             Tarefa tarefa = super.read(pci.getId());

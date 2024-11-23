@@ -116,7 +116,22 @@ public class ControleTarefas {
         }
     }
 
-    private void listarTarefasPorCategoria() {
+    private void listarTarefasPorTermos(String busca) {
+        try {
+            ArrayList<Tarefa> tarefas = arqTarefas.readAll();
+            if (tarefas.isEmpty()) {
+                System.out.println("Nenhuma tarefa encontrada.");
+            } else {
+                for (Tarefa tarefa : tarefas) {
+                    visaoTarefas.mostraTarefa(tarefa);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar tarefas: " + e.getMessage());
+        }
+    }
+
+    private void  listarTarefasPorCategoria() {
         try {
             int idCategoria = visaoTarefas.leIdCategoria();
             ArrayList<Tarefa> tarefas = arqTarefas.readByCategoria(idCategoria);
