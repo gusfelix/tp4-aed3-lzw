@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> {
 
-  private int id;
+  private int idTarefa;
   private int idCategoria;
   private short TAMANHO = 8;
 
@@ -20,17 +20,17 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
     this(-1, idCategoria);
   }
 
-  public ParCategoriaId(int id, int idCategoria) {
+  public ParCategoriaId(int idTarefa, int idCategoria) {
     try {
-      this.id = id;
+      this.idTarefa = idTarefa;
       this.idCategoria = idCategoria;
     } catch (Exception ec) {
       ec.printStackTrace();
     }
   }
 
-  public int getId() {
-    return this.id;
+  public int getIdTarefa() {
+    return this.idTarefa;
   }
 
   public int getIdCategoria() {
@@ -39,7 +39,7 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
 
   @Override
   public ParCategoriaId clone() {
-    return new ParCategoriaId(this.id, this.idCategoria);
+    return new ParCategoriaId(this.idTarefa, this.idCategoria);
   }
 
   public short size() {
@@ -47,20 +47,20 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
   }
 
   public int compareTo(ParCategoriaId a) {
-    if (this.id != a.id)
-      return this.id - a.id;
+    if (this.idCategoria != a.idCategoria)
+      return this.idCategoria - a.idCategoria;
     else
-      return this.idCategoria == -1 ? 0 : this.idCategoria - a.idCategoria;
+      return this.idTarefa == -1 ? 0 : this.idTarefa - a.idTarefa;
   }
 
   public String toString() {
-    return String.format("%3d", this.id) + ";" + String.format("%-3d", this.idCategoria);
+    return String.format("%3d", this.idTarefa) + ";" + String.format("%-3d", this.idCategoria);
   }
 
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
-    dos.writeInt(this.id);
+    dos.writeInt(this.idTarefa);
     dos.writeInt(this.idCategoria);
     return baos.toByteArray();
   }
@@ -68,8 +68,7 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
-    this.id = dis.readInt();
+    this.idTarefa = dis.readInt();
     this.idCategoria = dis.readInt();
   }
-
 }

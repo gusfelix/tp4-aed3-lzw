@@ -50,7 +50,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         }
 
         for (ParCategoriaId pci : pciList) {
-            Tarefa tarefa = read(pci.getId());
+            Tarefa tarefa = read(pci.getIdTarefa());
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
@@ -100,7 +100,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
-            Tarefa tarefa = super.read(pci.getId());
+            Tarefa tarefa = super.read(pci.getIdTarefa());
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
