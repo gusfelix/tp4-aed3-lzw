@@ -1,4 +1,6 @@
+package model;
 import aed3.*;
+
 import java.util.ArrayList;
 
 public class ArquivoCategoria extends aed3.Arquivo<Categoria> {

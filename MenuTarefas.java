@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+import model.ArquivoCategoria;
+import model.Categoria;
+
 public class MenuTarefas {
     
     ArquivoCategoria arqCategorias;

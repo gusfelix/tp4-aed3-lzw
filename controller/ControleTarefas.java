@@ -1,4 +1,11 @@
+package controller;
 import java.util.ArrayList;
+
+import model.ArquivoCategoria;
+import model.ArquivoTarefa;
+import model.Categoria;
+import model.Tarefa;
+import view.VisaoTarefas;
 
 public class ControleTarefas {
     private ArquivoTarefa arqTarefas;

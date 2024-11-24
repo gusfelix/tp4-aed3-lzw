@@ -1,6 +1,10 @@
+package view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import model.Categoria;
+import model.Tarefa;
 
 public class VisaoTarefas {
     private static Scanner sc = new Scanner(System.in);

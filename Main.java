@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+import controller.ControleCategorias;
+import controller.ControleTarefas;
+
 public class Main {
     public static void main(String[] args) {
         try {

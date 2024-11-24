@@ -1,4 +1,7 @@
+package view;
 import java.util.Scanner;
+
+import model.Categoria;
 
 public class VisaoCategorias {
     private static Scanner sc = new Scanner(System.in);

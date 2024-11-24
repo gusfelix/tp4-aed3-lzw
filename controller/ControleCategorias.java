@@ -1,4 +1,10 @@
+package controller;
 import java.util.ArrayList;
+
+import model.ArquivoCategoria;
+import model.ArquivoTarefa;
+import model.Categoria;
+import view.VisaoCategorias;
 
 public class ControleCategorias {
     private ArquivoCategoria arqCategorias;

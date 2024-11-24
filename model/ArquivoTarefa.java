@@ -1,3 +1,4 @@
+package model;
 import aed3.*;
 import util.*;
 

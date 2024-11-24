@@ -1,3 +1,4 @@
+package model;
 import aed3.Registro;
 import java.time.LocalDate;
 import java.io.IOException;
