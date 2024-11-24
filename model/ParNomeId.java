@@ -1,4 +1,5 @@
 package model;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -22,7 +23,7 @@ public class ParNomeId implements aed3.RegistroArvoreBMais<ParNomeId> {
   }
 
   public ParNomeId(String n, int i) throws Exception {
-    if(n.getBytes().length>26)
+    if (n.getBytes().length > 26)
       throw new Exception("Nome extenso demais. Diminua o número de caracteres.");
     this.nome = n;
     this.id = i;
@@ -63,12 +64,12 @@ public class ParNomeId implements aed3.RegistroArvoreBMais<ParNomeId> {
     DataOutputStream dos = new DataOutputStream(baos);
     byte[] vb = new byte[26];
     byte[] vbNome = this.nome.getBytes();
-    int i=0;
-    while(i<vbNome.length) {
+    int i = 0;
+    while (i < vbNome.length) {
       vb[i] = vbNome[i];
       i++;
     }
-    while(i<26) {
+    while (i < 26) {
       vb[i] = ' ';
       i++;
     }

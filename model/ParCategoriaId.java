@@ -1,4 +1,5 @@
 package model;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -15,8 +16,8 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
     this(-1, -1);
   }
 
-  public ParCategoriaId(int id) {
-    this(id, -1);
+  public ParCategoriaId(int idCategoria) {
+    this(-1, idCategoria);
   }
 
   public ParCategoriaId(int id, int idCategoria) {
@@ -34,7 +35,7 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
 
   public int getIdCategoria() {
     return this.idCategoria;
-  } 
+  }
 
   @Override
   public ParCategoriaId clone() {
@@ -46,14 +47,10 @@ public class ParCategoriaId implements aed3.RegistroArvoreBMais<ParCategoriaId> 
   }
 
   public int compareTo(ParCategoriaId a) {
-    if (this.id == -1 || a.id == -1) {
-        return this.idCategoria == -1 ? 0 : this.idCategoria - a.idCategoria;
-    }
-    if (this.id != a.id) {
-        return this.id - a.id;
-    } else {
-        return this.idCategoria - a.idCategoria;
-    }
+    if (this.id != a.id)
+      return this.id - a.id;
+    else
+      return this.idCategoria == -1 ? 0 : this.idCategoria - a.idCategoria;
   }
 
   public String toString() {

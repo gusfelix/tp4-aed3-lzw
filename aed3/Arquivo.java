@@ -13,28 +13,27 @@ public class Arquivo<T extends Registro> {
 
     public Arquivo(String na, Constructor<T> c) throws Exception {
         File d = new File(".\\dados");
-        if(!d.exists())
+        if (!d.exists())
             d.mkdir();
 
-        this.nomeArquivo = ".\\dados\\"+na+".db";
+        this.nomeArquivo = ".\\dados\\" + na + ".db";
         this.construtor = c;
         arquivo = new RandomAccessFile(this.nomeArquivo, "rw");
-        if(arquivo.length()<TAM_CABECALHO) {
+        if (arquivo.length() < TAM_CABECALHO) {
             // inicializa o arquivo, criando seu cabecalho
             arquivo.writeInt(0);
         }
 
         indiceDireto = new HashExtensivel<>(
-            ParIDEndereco.class.getConstructor(), 
-            4, 
-            ".\\dados\\"+na+".hash_d.db", 
-            ".\\dados\\"+na+".hash_c.db"
-        );
+                ParIDEndereco.class.getConstructor(),
+                4,
+                ".\\dados\\" + na + ".hash_d.db",
+                ".\\dados\\" + na + ".hash_c.db");
     }
 
     public int create(T obj) throws Exception {
         arquivo.seek(0);
-        int proximoID = arquivo.readInt()+1;
+        int proximoID = arquivo.readInt() + 1;
         arquivo.seek(0);
         arquivo.writeInt(proximoID);
         obj.setId(proximoID);
@@ -47,10 +46,10 @@ public class Arquivo<T extends Registro> {
         arquivo.write(b);
 
         indiceDireto.create(new ParIDEndereco(proximoID, endereco));
-        
+
         return obj.getId();
     }
-    
+
     public T read(int id) throws Exception {
         T obj;
         short tam;
@@ -58,16 +57,16 @@ public class Arquivo<T extends Registro> {
         byte lapide;
 
         ParIDEndereco pid = indiceDireto.read(id);
-        if(pid!=null) {
+        if (pid != null) {
             arquivo.seek(pid.getEndereco());
             obj = construtor.newInstance();
             lapide = arquivo.readByte();
-            if(lapide==' ') {
+            if (lapide == ' ') {
                 tam = arquivo.readShort();
                 b = new byte[tam];
                 arquivo.read(b);
                 obj.fromByteArray(b);
-                if(obj.getId()==id)
+                if (obj.getId() == id)
                     return obj;
             }
         }
@@ -81,17 +80,17 @@ public class Arquivo<T extends Registro> {
         byte lapide;
 
         ParIDEndereco pie = indiceDireto.read(id);
-        if(pie!=null) {
+        if (pie != null) {
             arquivo.seek(pie.getEndereco());
             obj = construtor.newInstance();
             lapide = arquivo.readByte();
-            if(lapide==' ') {
+            if (lapide == ' ') {
                 tam = arquivo.readShort();
                 b = new byte[tam];
                 arquivo.read(b);
                 obj.fromByteArray(b);
-                if(obj.getId()==id) {
-                    if(indiceDireto.delete(id)) {
+                if (obj.getId() == id) {
+                    if (indiceDireto.delete(id)) {
                         arquivo.seek(pie.getEndereco());
                         arquivo.write('*');
                         return true;
@@ -108,23 +107,23 @@ public class Arquivo<T extends Registro> {
         byte[] b;
         byte lapide;
         ParIDEndereco pie = indiceDireto.read(novoObj.getId());
-        if(pie!=null) {
+        if (pie != null) {
             arquivo.seek(pie.getEndereco());
             obj = construtor.newInstance();
             lapide = arquivo.readByte();
-            if(lapide==' ') {
+            if (lapide == ' ') {
                 tam = arquivo.readShort();
                 b = new byte[tam];
                 arquivo.read(b);
                 obj.fromByteArray(b);
-                if(obj.getId()==novoObj.getId()) {
+                if (obj.getId() == novoObj.getId()) {
 
                     byte[] b2 = novoObj.toByteArray();
-                    short tam2 = (short)b2.length;
+                    short tam2 = (short) b2.length;
 
                     // sobrescreve o registro
-                    if(tam2 <= tam) {
-                        arquivo.seek(pie.getEndereco()+3);
+                    if (tam2 <= tam) {
+                        arquivo.seek(pie.getEndereco() + 3);
                         arquivo.write(b2);
                     }
 
@@ -150,6 +149,5 @@ public class Arquivo<T extends Registro> {
         arquivo.close();
         indiceDireto.close();
     }
-
 
 }

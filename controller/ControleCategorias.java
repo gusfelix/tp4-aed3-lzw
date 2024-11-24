@@ -1,4 +1,5 @@
 package controller;
+
 import java.util.ArrayList;
 
 import model.ArquivoCategoria;
@@ -47,7 +48,7 @@ public class ControleCategorias {
 
     private void incluirCategoria() throws Exception {
         String nome = visaoCategorias.leNomeCategoria();
-        
+
         if (nome == null || nome.trim().isEmpty()) {
             System.out.println("Nome inválido. A operação foi cancelada.");
             return;
@@ -71,31 +72,30 @@ public class ControleCategorias {
     private void alterarCategoria() throws Exception {
         String nomeAtual = visaoCategorias.leNomeCategoria();
         Categoria categoriaAntiga = arqCategorias.read(nomeAtual);
-        
+
         if (categoriaAntiga == null) {
             System.out.println("Categoria não encontrada.");
             return;
         }
-        
+
         String novoNome = visaoCategorias.leNomeCategoria();
-        
+
         if (novoNome == null || novoNome.trim().isEmpty()) {
             System.out.println("Nome inválido. A operação foi cancelada.");
             return;
         }
-    
+
         Categoria novaCategoria = new Categoria(novoNome);
         novaCategoria.setId(categoriaAntiga.getId());
-        
+
         boolean sucesso = arqCategorias.update(novaCategoria);
-        
+
         if (sucesso) {
             System.out.println("Categoria alterada com sucesso.");
         } else {
             System.out.println("Erro ao alterar a categoria.");
         }
     }
-    
 
     private void excluirCategoria() throws Exception {
         String nome = visaoCategorias.leNomeCategoria();
@@ -120,7 +120,7 @@ public class ControleCategorias {
     public void listarCategorias() {
         try {
             ArrayList<Categoria> categorias = arqCategorias.readAll();
-            if (categorias.isEmpty()) {    
+            if (categorias.isEmpty()) {
                 System.out.println("Nenhuma tarefa encontrada.");
             } else {
                 for (Categoria categoria : categorias) {

@@ -17,10 +17,9 @@ public class TextProcessor {
     public TextProcessor() throws Exception {
         this.stopWords = loadStopWords();
         listaInvertida = new ListaInvertida(
-            4, 
-            "dados/dicionario.listainv.db", 
-            "dados/blocos.listainv.db"
-        );
+                4,
+                "dados/dicionario.listainv.db",
+                "dados/blocos.listainv.db");
     }
 
     // Método público para processar texto
@@ -55,7 +54,7 @@ public class TextProcessor {
     private static String normalizeText(String text) {
         // Normaliza o texto para remover acentos
         String noAccents = Normalizer.normalize(text, Normalizer.Form.NFD)
-                                      .replaceAll("\\p{M}", "");
+                .replaceAll("\\p{M}", "");
         // Remove pontuações
         return noAccents.replaceAll("[\\p{Punct}]", "");
     }

@@ -1,7 +1,7 @@
 package aed3;
 
 public class ElementoLista implements Comparable<ElementoLista>, Cloneable {
-    
+
     private int id;
     private float frequencia;
 
@@ -28,7 +28,7 @@ public class ElementoLista implements Comparable<ElementoLista>, Cloneable {
 
     @Override
     public String toString() {
-        return "("+this.id+";"+this.frequencia+")";
+        return "(" + this.id + ";" + this.frequencia + ")";
     }
 
     @Override

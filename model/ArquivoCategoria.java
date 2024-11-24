@@ -1,4 +1,5 @@
 package model;
+
 import aed3.*;
 
 import java.util.ArrayList;
@@ -10,10 +11,9 @@ public class ArquivoCategoria extends aed3.Arquivo<Categoria> {
     public ArquivoCategoria() throws Exception {
         super("categorias", Categoria.class.getConstructor());
         indiceIndiretoNome = new ArvoreBMais<>(
-            ParNomeId.class.getConstructor(), 
-            4,
-            ".\\dados\\indiceNome.db"
-        );
+                ParNomeId.class.getConstructor(),
+                4,
+                ".\\dados\\indiceNome.db");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ArquivoCategoria extends aed3.Arquivo<Categoria> {
         }
         return super.read(pcis.get(0).getId());
     }
-    
+
     public boolean delete(String nome) throws Exception {
         ArrayList<ParNomeId> pcis = indiceIndiretoNome.read(new ParNomeId(nome));
         if (pcis.isEmpty()) {
