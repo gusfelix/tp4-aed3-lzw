@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 import controller.ControleCategorias;
+import controller.ControleRotulos;
 import controller.ControleTarefas;
 
 public class Main {
@@ -14,19 +15,24 @@ public class Main {
                 System.out.println("-----------");
                 System.out.println("1) Tarefas");
                 System.out.println("2) Categorias");
+                System.out.println("3) Rótulos");
                 System.out.println("0) Sair");
 
                 System.out.print("Opção: ");
                 opcao = Integer.parseInt(console.nextLine());
+                ControleTarefas controleTarefas = new ControleTarefas();
 
                 switch (opcao) {
                     case 1:
-                        ControleTarefas controleTarefas = new ControleTarefas();
                         controleTarefas.iniciar();
                         break;
                     case 2:
                         ControleCategorias controleCategorias = new ControleCategorias();
                         controleCategorias.iniciar();
+                        break;
+                    case 3:
+                        ControleRotulos controleRotulos = new ControleRotulos(controleTarefas);
+                        controleRotulos.iniciar();
                         break;
                     case 0:
                         System.out.println("Saindo...");

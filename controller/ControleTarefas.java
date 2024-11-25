@@ -81,6 +81,10 @@ public class ControleTarefas {
         }
     }
 
+    public Tarefa buscarTarefa(int id) throws Exception {
+        return arqTarefas.read(id);
+    }
+
     private void buscarTarefasPorTermos(String busca) {
         try {
             ArrayList<Tarefa> tarefas = arqTarefas.readAllByTerms(busca);
