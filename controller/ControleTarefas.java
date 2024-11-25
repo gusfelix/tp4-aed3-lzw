@@ -1,4 +1,5 @@
 package controller;
+
 import java.util.ArrayList;
 
 import model.ArquivoCategoria;
@@ -146,7 +147,7 @@ public class ControleTarefas {
         }
     }
 
-    private void  listarTarefasPorCategoria() {
+    private void listarTarefasPorCategoria() {
         try {
             int idCategoria = visaoTarefas.leIdCategoria();
             ArrayList<Tarefa> tarefas = arqTarefas.readByCategoria(idCategoria);

@@ -1,34 +1,63 @@
 package model;
 
-public class Rotulo {
-    private int id;
-    private String nome;
+import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import aed3.Registro;
 
-    public Rotulo(String nome) {
-        this.nome = nome;
+public class Rotulo implements Registro {
+
+    public int id;
+    public String rotulo;
+
+    public Rotulo() {
+        this(-1, "");
     }
 
-    public int getId() {
-        return id;
+    public Rotulo(String n) {
+        this(-1, n);
+    }
+
+    public Rotulo(int i, String n) {
+        this.id = i;
+        this.rotulo = n;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public int getId() {
+        return id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setRotulo(String rotulo) {
+        this.rotulo = rotulo;
     }
 
-    @Override
+    public String getRotulo() {
+        return rotulo;
+    }
+
     public String toString() {
-        return "Rotulo{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                '}';
+        return "\nID..: " + this.id +
+                "\nRotulo: " + this.rotulo;
+    }
+
+    public byte[] toByteArray() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+        dos.writeInt(this.id);
+        dos.writeUTF(this.rotulo);
+        return baos.toByteArray();
+    }
+
+    public void fromByteArray(byte[] b) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(b);
+        DataInputStream dis = new DataInputStream(bais);
+        this.id = dis.readInt();
+        this.rotulo = dis.readUTF();
     }
 }

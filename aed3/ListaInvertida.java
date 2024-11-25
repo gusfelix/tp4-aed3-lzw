@@ -43,7 +43,7 @@ public class ListaInvertida {
       quantidadeMaxima = (short) qtdmax;
       elementos = new ElementoLista[quantidadeMaxima];
       proximo = -1;
-      bytesPorBloco = (short) (2 + (4+4) * quantidadeMaxima + 8);  // 4 do INT e 4 do FLOAT
+      bytesPorBloco = (short) (2 + (4 + 4) * quantidadeMaxima + 8); // 4 do INT e 4 do FLOAT
     }
 
     public byte[] toByteArray() throws IOException {
@@ -176,7 +176,7 @@ public class ListaInvertida {
     nomeArquivoBlocos = nc;
 
     arqDicionario = new RandomAccessFile(nomeArquivoDicionario, "rw");
-    if(arqDicionario.length()<4) {    // cabeçalho do arquivo com número de entidades
+    if (arqDicionario.length() < 4) { // cabeçalho do arquivo com número de entidades
       arqDicionario.seek(0);
       arqDicionario.writeInt(0);
     }
@@ -188,7 +188,7 @@ public class ListaInvertida {
     arqDicionario.seek(0);
     int n = arqDicionario.readInt();
     arqDicionario.seek(0);
-    arqDicionario.writeInt(n+1);    
+    arqDicionario.writeInt(n + 1);
   }
 
   // Decrementa o número de entidades
@@ -196,7 +196,7 @@ public class ListaInvertida {
     arqDicionario.seek(0);
     int n = arqDicionario.readInt();
     arqDicionario.seek(0);
-    arqDicionario.writeInt(n-1);    
+    arqDicionario.writeInt(n - 1);
   }
 
   // Retorna o número de entidades

@@ -1,4 +1,5 @@
 package model;
+
 import aed3.*;
 import util.*;
 
@@ -14,15 +15,13 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
     public ArquivoTarefa() throws Exception {
         super("tarefas", Tarefa.class.getConstructor());
         indiceIndiretoCategoria = new ArvoreBMais<>(
-            ParCategoriaId.class.getConstructor(),
-            4,
-            ".\\dados\\indiceCategoria.db"
-        );
+                ParCategoriaId.class.getConstructor(),
+                4,
+                ".\\dados\\indiceCategoria.db");
         listaInvertida = new ListaInvertida(
-            4, 
-            "dados/dicionario.listainv.db", 
-            "dados/blocos.listainv.db"
-        );
+                4,
+                "dados/dicionario.listainv.db",
+                "dados/blocos.listainv.db");
     }
 
     @Override
@@ -32,12 +31,12 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         TextProcessor txtPcsr = new TextProcessor();
         String[] termos = txtPcsr.processText(t.getNome());
 
-        for(String termo : termos){
+        for (String termo : termos) {
             listaInvertida.create(termo, new ElementoLista(id, txtPcsr.calcularTF(termo, termos)));
         }
 
         listaInvertida.incrementaEntidades();
-        
+
         indiceIndiretoCategoria.create(new ParCategoriaId(id, t.getIdCategoria()));
         return id;
     }
@@ -51,7 +50,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         }
 
         for (ParCategoriaId pci : pciList) {
-            Tarefa tarefa = read(pci.getId());
+            Tarefa tarefa = read(pci.getIdTarefa());
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
@@ -64,23 +63,23 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         Tarefa tarefa = read(tarefaId);
 
         if (tarefa == null) {
-            return false; 
+            return false;
         }
 
         TextProcessor txtPcsr = new TextProcessor();
         String[] termos = txtPcsr.processText(tarefa.getNome());
 
-        for(String termo : termos){
+        for (String termo : termos) {
             listaInvertida.delete(termo, tarefa.getId());
         }
 
         listaInvertida.decrementaEntidades();
-    
+
         boolean removed = super.delete(tarefaId);
         if (removed) {
-            indiceIndiretoCategoria.delete(new ParCategoriaId(tarefa.getIdCategoria(), tarefaId));
+            indiceIndiretoCategoria.delete(new ParCategoriaId(tarefaId, tarefa.getIdCategoria()));
         }
-    
+
         return removed;
     }
 
@@ -89,8 +88,8 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         Tarefa tarefaAntiga = read(novaTarefa.getId());
         if (super.update(novaTarefa)) {
             if (tarefaAntiga != null && novaTarefa.getIdCategoria() != tarefaAntiga.getIdCategoria()) {
-                indiceIndiretoCategoria.delete(new ParCategoriaId(tarefaAntiga.getIdCategoria(), tarefaAntiga.getId()));
-                indiceIndiretoCategoria.create(new ParCategoriaId(novaTarefa.getIdCategoria(), novaTarefa.getId()));
+                indiceIndiretoCategoria.delete(new ParCategoriaId(tarefaAntiga.getId(), tarefaAntiga.getIdCategoria()));
+                indiceIndiretoCategoria.create(new ParCategoriaId(novaTarefa.getId(), novaTarefa.getIdCategoria()));
             }
             return true;
         }
@@ -101,7 +100,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         for (ParCategoriaId pci : indiceIndiretoCategoria.read(null)) {
-            Tarefa tarefa = super.read(pci.getId());
+            Tarefa tarefa = super.read(pci.getIdTarefa());
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
@@ -117,12 +116,12 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         ElementoLista elementoTmp;
         ArrayList<ElementoLista> listaFinal = new ArrayList<>();
 
-        for(String termo : termos){
+        for (String termo : termos) {
             float IDF = txtPcsr.calcularIDF(termo);
             ElementoLista[] listaDados = listaInvertida.read(termo);
 
-            for(ElementoLista elemento : listaDados){
-                elementoTmp =  new ElementoLista(elemento.getId(), elemento.getFrequencia()*IDF);
+            for (ElementoLista elemento : listaDados) {
+                elementoTmp = new ElementoLista(elemento.getId(), elemento.getFrequencia() * IDF);
                 listaFinal.add(elementoTmp);
             }
         }
@@ -143,7 +142,8 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         resultado.sort((e1, e2) -> Float.compare(e2.getFrequencia(), e1.getFrequencia()));
 
         // for (ElementoLista elemento : resultado) {
-        //     System.out.println("("+ elemento.getId() +", "+ elemento.getFrequencia() +")");
+        // System.out.println("("+ elemento.getId() +", "+ elemento.getFrequencia()
+        // +")");
         // }
 
         ArrayList<Tarefa> tarefas = new ArrayList<>();
@@ -153,7 +153,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
                 tarefas.add(tarefa);
             }
         }
-    
+
         return tarefas;
     }
 }

@@ -1,4 +1,5 @@
 package model;
+
 import aed3.Registro;
 import java.time.LocalDate;
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class Tarefa implements Registro {
         this(-1, idCategoria, nome, criacao, null, status, prioridade);
     }
 
-    public Tarefa(int id, int idCategoria, String nome, LocalDate criacao, LocalDate conclusao, short status, short prioridade) {
+    public Tarefa(int id, int idCategoria, String nome, LocalDate criacao, LocalDate conclusao, short status,
+            short prioridade) {
         this.id = id;
         this.idCategoria = idCategoria;
         this.nome = nome;
@@ -97,12 +99,12 @@ public class Tarefa implements Registro {
     // Método toString para exibir as informações da tarefa
     public String toString() {
         return "\nID.........: " + this.id +
-               "\nID Categoria: " + this.idCategoria +
-               "\nNome.......: " + this.nome +
-               "\nCriação....: " + this.criacao +
-               "\nConclusão..: " + (this.conclusao != null ? this.conclusao : "Ainda não concluída") +
-               "\nStatus.....: " + this.status +
-               "\nPrioridade.: " + this.prioridade;
+                "\nID Categoria: " + this.idCategoria +
+                "\nNome.......: " + this.nome +
+                "\nCriação....: " + this.criacao +
+                "\nConclusão..: " + (this.conclusao != null ? this.conclusao : "Ainda não concluída") +
+                "\nStatus.....: " + this.status +
+                "\nPrioridade.: " + this.prioridade;
     }
 
     // Serialização da classe Tarefa em um array de bytes
@@ -113,7 +115,8 @@ public class Tarefa implements Registro {
         dos.writeInt(this.idCategoria);
         dos.writeUTF(this.nome);
         dos.writeInt((int) this.criacao.toEpochDay());
-        dos.writeInt(this.conclusao != null ? (int) this.conclusao.toEpochDay() : -1); // -1 indica que não foi concluída
+        dos.writeInt(this.conclusao != null ? (int) this.conclusao.toEpochDay() : -1); // -1 indica que não foi
+                                                                                       // concluída
         dos.writeShort(this.status);
         dos.writeShort(this.prioridade);
         return baos.toByteArray();
@@ -129,7 +132,8 @@ public class Tarefa implements Registro {
         this.nome = dis.readUTF();
         this.criacao = LocalDate.ofEpochDay(dis.readInt());
         int conclusaoEpochDay = dis.readInt();
-        this.conclusao = conclusaoEpochDay != -1 ? LocalDate.ofEpochDay(conclusaoEpochDay) : null; // null se não foi concluída
+        this.conclusao = conclusaoEpochDay != -1 ? LocalDate.ofEpochDay(conclusaoEpochDay) : null; // null se não foi
+                                                                                                   // concluída
         this.status = dis.readShort();
         this.prioridade = dis.readShort();
     }

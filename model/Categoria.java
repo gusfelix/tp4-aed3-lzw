@@ -1,4 +1,5 @@
 package model;
+
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -14,6 +15,7 @@ public class Categoria implements Registro {
     public Categoria() {
         this(-1, "");
     }
+
     public Categoria(String n) {
         this(-1, n);
     }
@@ -41,7 +43,7 @@ public class Categoria implements Registro {
 
     public String toString() {
         return "\nID..: " + this.id +
-               "\nNome: " + this.nome;
+                "\nNome: " + this.nome;
     }
 
     public byte[] toByteArray() throws IOException {
@@ -51,7 +53,6 @@ public class Categoria implements Registro {
         dos.writeUTF(this.nome);
         return baos.toByteArray();
     }
-
 
     public void fromByteArray(byte[] b) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(b);
