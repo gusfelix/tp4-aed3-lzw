@@ -10,8 +10,15 @@ import java.util.Map;
 public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
     private ArvoreBMais<ParCategoriaId> indiceIndiretoCategoria;
+    /* TODO descomentar linhas abaixo */
+    // private ArvoreBMais<ParRotuloTarefa> indiceIndiretoRotulo;
+    // private ArvoreBMais<ParTarefaRotulo> indiceIndiretoTarefa;
     private ListaInvertida listaInvertida;
 
+    /*
+     * TODO adicionar no construtor a inicialização de indiceIndiretoRotulo e
+     * indiceIndiretoTarefa
+     */
     public ArquivoTarefa() throws Exception {
         super("tarefas", Tarefa.class.getConstructor());
         indiceIndiretoCategoria = new ArvoreBMais<>(
@@ -24,6 +31,13 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
                 "dados/blocos.listainv.db");
     }
 
+    /*
+     * TODO adicionar parametro 'rotulos' do tipo ArrayList<Rotulo> para lidar com a
+     * criação de rótulos. Adicionar em 'create' associção de rótulos a tarefas,
+     * criando um
+     * registro em indiceIndiretoRotulo e em indiceIndiretoTarefa para cada rótulo
+     * associado à nova tarefa
+     */
     @Override
     public int create(Tarefa t) throws Exception {
 
@@ -77,6 +91,10 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         return tarefas;
     }
 
+    /*
+     * TODO ao excliuir uma tarefa, excluir também os registros associados em
+     * indiceIndiretoTarefa e indiceIndiretoRotulo
+     */
     public boolean delete(int tarefaId) throws Exception {
         Tarefa tarefa = read(tarefaId);
 
@@ -101,6 +119,11 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         return removed;
     }
 
+    /*
+     * TODO adicionar no método 'update' a atualização dos rótulos associados à
+     * tarefa utilizando os índices indiretos indiceIndiretoRotulo e
+     * indiceIndiretoTarefa
+     */
     @Override
     public boolean update(Tarefa novaTarefa) throws Exception {
         Tarefa tarefaAntiga = read(novaTarefa.getId());
@@ -173,5 +196,14 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         }
 
         return tarefas;
+    }
+
+    /*
+     * TODO implementar método readRotulosByTarefa que recebe o ID de uma tarefa e
+     * busca em indiceIndiretoTarefa todos os registros com esse ID e retorna os
+     * rotulos associados do tipo ArrayList<Rotulo>
+     */
+    public ArrayList<Rotulo> readRotulosByTarefa(int tarefaId) throws Exception {
+        return null;
     }
 }

@@ -46,7 +46,7 @@ public class ControleTarefas {
                     listarTarefasPorCategoria();
                     break;
                 case 8:
-                    listarTarefasPorRotulo();
+                    listarRotulosPorTarefa();
                     break;
                 case 0:
                     break;
@@ -56,6 +56,11 @@ public class ControleTarefas {
         } while (opcao != 0);
     }
 
+    /*
+     * TODO: chamar listarRotulos(true) para exibir os rótulos disponíveis e o
+     * usuário selecionar quais serão associados à nova tarefa. Passar o arraylist
+     * de rotulos para a função create de ArquivoTarefa
+     */
     private void incluirTarefa() throws Exception {
         ArrayList<Categoria> categorias = arqCategorias.readAll();
         if (categorias.isEmpty()) {
@@ -213,23 +218,11 @@ public class ControleTarefas {
         }
     }
 
-    private void listarTarefasPorRotulo() {
-        try {
-            int idRotulo = listarRotulos(true);
+    /*
+     * TODO: Implementar o método que exiba os rótulos de uma tarefa, ele chama o
+     * método readRotulosByTarefa da classe ArquivoTarefa
+     */
+    private void listarRotulosPorTarefa() {
 
-            if (idRotulo != -1) {
-                ArrayList<Tarefa> tarefas = arqTarefas.readByRotulo(idRotulo);
-
-                if (tarefas.isEmpty()) {
-                    System.out.println("Nenhuma tarefa encontrada para o rótulo informado.");
-                } else {
-                    for (Tarefa tarefa : tarefas) {
-                        visaoTarefas.mostraTarefa(tarefa);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao listar tarefas por rótulo: " + e.getMessage());
-        }
     }
 }

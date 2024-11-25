@@ -27,7 +27,7 @@ public class VisaoRotulos {
             System.out.println("3. Alterar Rótulo");
             System.out.println("4. Excluir Rótulo");
             System.out.println("5. Listar Rótulos");
-            System.out.println("6. Listar Rótulos por Tarefa");
+            System.out.println("6. Listar Tarefas por Rotulo");
             System.out.println("0. Sair");
             opcao = scanner.nextInt();
             scanner.nextLine(); // consume newline
