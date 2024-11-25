@@ -19,7 +19,7 @@ public class VisaoRotulos {
         this.scanner = new Scanner(System.in);
     }
 
-    public void menu() throws Exception {
+    public void menu() {
         int opcao;
         do {
             System.out.println("1. Incluir Rótulo");
@@ -67,7 +67,7 @@ public class VisaoRotulos {
         scanner.nextLine(); // consume newline
         Rotulo rotulo = controleRotulos.buscarRotulo(id);
         if (rotulo != null) {
-            System.out.println("Rótulo: " + rotulo.getNome());
+            System.out.println("Rótulo: " + rotulo.getRotulo());
         } else {
             System.out.println("Rótulo não encontrado.");
         }
@@ -92,20 +92,26 @@ public class VisaoRotulos {
     private void listarRotulos() {
         List<Rotulo> rotulos = controleRotulos.listarRotulos();
         for (Rotulo rotulo : rotulos) {
-            System.out.println(rotulo.getId() + ": " + rotulo.getNome());
+            System.out.println(rotulo.getId() + ": " + rotulo.getRotulo());
         }
     }
 
-    private void mostrarTarefasAssociadas() throws Exception {
+    private void mostrarTarefasAssociadas() {
         System.out.print("ID do Rótulo: ");
         int id = scanner.nextInt();
         scanner.nextLine(); // consume newline
         List<Integer> tarefas = controleRotulos.listarTarefas(id);
         for (int idTarefa : tarefas) {
-            Tarefa tarefa = controleTarefas.buscarTarefa(idTarefa);
-            if (tarefa != null) {
-                System.out.println(tarefa.getId() + ": " + tarefa.getId());
+            Tarefa tarefa;
+            try {
+                tarefa = controleTarefas.buscarTarefa(idTarefa);
+                if (tarefa != null) {
+                    System.out.println(tarefa.getId() + ": " + tarefa.getNome());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            
         }
     }
 }

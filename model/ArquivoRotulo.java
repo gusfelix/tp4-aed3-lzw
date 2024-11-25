@@ -43,7 +43,7 @@ public class ArquivoRotulo {
         List<Integer> tarefas = new ArrayList<>();
         for (ParCategoriaId relacao : relacoes) {
             if (relacao.getIdCategoria() == idRotulo) {
-                tarefas.add(relacao.getId());
+                tarefas.add(relacao.getIdTarefa());
             }
         }
         return tarefas;

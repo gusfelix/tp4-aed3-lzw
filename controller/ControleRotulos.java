@@ -5,6 +5,7 @@ import java.util.List;
 import model.ArquivoRotulo;
 import model.Rotulo;
 import view.VisaoRotulos;
+import java.util.List;
 
 public class ControleRotulos {
     private ArquivoRotulo arquivoRotulo;
@@ -17,23 +18,23 @@ public class ControleRotulos {
         this.visaoRotulos = new VisaoRotulos(this, controleTarefas);
     }
 
-    public void iniciar() throws Exception {
+    public void iniciar() {
         visaoRotulos.menu();
     }
 
-    public void incluirRotulo(String nome) {
-        Rotulo rotulo = new Rotulo(nome);
-        arquivoRotulo.incluir(rotulo);
+    public void incluirRotulo(String rotulo) {
+        Rotulo novoRotulo = new Rotulo(rotulo);
+        arquivoRotulo.incluir(novoRotulo);
     }
 
     public Rotulo buscarRotulo(int id) {
         return arquivoRotulo.buscar(id);
     }
 
-    public void alterarRotulo(int id, String novoNome) {
+    public void alterarRotulo(int id, String novoRotulo) {
         Rotulo rotulo = arquivoRotulo.buscar(id);
         if (rotulo != null) {
-            rotulo.setNome(novoNome);
+            rotulo.setRotulo(novoRotulo);
             arquivoRotulo.alterar(rotulo);
         }
     }
