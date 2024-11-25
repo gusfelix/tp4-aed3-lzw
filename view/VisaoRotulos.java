@@ -1,6 +1,6 @@
 package view;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import controller.ControleRotulos;
@@ -27,7 +27,7 @@ public class VisaoRotulos {
             System.out.println("3. Alterar Rótulo");
             System.out.println("4. Excluir Rótulo");
             System.out.println("5. Listar Rótulos");
-            System.out.println("6. Mostrar Tarefas Associadas a um Rótulo");
+            System.out.println("6. Listar Rótulos por Tarefa");
             System.out.println("0. Sair");
             opcao = scanner.nextInt();
             scanner.nextLine(); // consume newline
@@ -58,60 +58,74 @@ public class VisaoRotulos {
     private void incluirRotulo() {
         System.out.print("Nome do Rótulo: ");
         String nome = scanner.nextLine();
-        controleRotulos.incluirRotulo(nome);
+        try {
+            controleRotulos.incluirRotulo(nome);
+        } catch (Exception e) {
+            System.out.println("Erro ao incluir rótulo: " + e.getMessage());
+        }
     }
 
     private void buscarRotulo() {
-        System.out.print("ID do Rótulo: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        Rotulo rotulo = controleRotulos.buscarRotulo(id);
-        if (rotulo != null) {
-            System.out.println("Rótulo: " + rotulo.getRotulo());
-        } else {
-            System.out.println("Rótulo não encontrado.");
+        try {
+            System.out.print("Nome do Rótulo: ");
+            String nomeRotulo = scanner.nextLine();
+            Rotulo rotulo = controleRotulos.buscarRotulo(nomeRotulo);
+            if (rotulo != null) {
+                System.out.println("Rótulo: " + rotulo.getRotulo());
+            } else {
+                System.out.println("Rótulo não encontrado.");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar rótulo: " + e.getMessage());
         }
     }
 
     private void alterarRotulo() {
-        System.out.print("ID do Rótulo: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // consume newline
+        System.out.print("Nome do Rótulo: ");
+        String nomeRotulo = scanner.nextLine();
         System.out.print("Novo Nome do Rótulo: ");
         String novoNome = scanner.nextLine();
-        controleRotulos.alterarRotulo(id, novoNome);
+        try {
+            controleRotulos.alterarRotulo(nomeRotulo, novoNome);
+        } catch (Exception e) {
+            System.out.println("Erro ao alterar rótulo: " + e.getMessage());
+        }
     }
 
     private void excluirRotulo() {
-        System.out.print("ID do Rótulo: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        controleRotulos.excluirRotulo(id);
+        System.out.print("Nome do Rótulo: ");
+        String nomeRotulo = scanner.nextLine();
+        try {
+            controleRotulos.excluirRotulo(nomeRotulo);
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir rótulo: " + e.getMessage());
+        }
     }
 
     private void listarRotulos() {
-        List<Rotulo> rotulos = controleRotulos.listarRotulos();
-        for (Rotulo rotulo : rotulos) {
-            System.out.println(rotulo.getId() + ": " + rotulo.getRotulo());
+        try {
+            ArrayList<Rotulo> rotulos = controleRotulos.listarRotulos();
+            for (Rotulo rotulo : rotulos) {
+                System.out.println(rotulo.getId() + ": " + rotulo.getRotulo());
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar rótulos: " + e.getMessage());
         }
     }
 
     private void mostrarTarefasAssociadas() {
-        System.out.print("ID do Rótulo: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        List<Integer> tarefas = controleRotulos.listarTarefas(id);
-        for (int idTarefa : tarefas) {
-            Tarefa tarefa;
-            try {
-                tarefa = controleTarefas.buscarTarefa(idTarefa);
+        try {
+            System.out.print("Nome do Rótulo: ");
+            String nomeRotulo = scanner.nextLine();
+            ArrayList<Tarefa> tarefas = controleRotulos.listarTarefas(nomeRotulo);
+            for (Tarefa tarefa : tarefas) {
+                tarefa = controleTarefas.buscarTarefa(tarefa.getId());
                 if (tarefa != null) {
                     System.out.println(tarefa.getId() + ": " + tarefa.getNome());
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            
+        } catch (Exception e) {
+            System.out.println("Erro ao listar tarefas associadas ao rótulo: " + e.getMessage());
         }
     }
 }

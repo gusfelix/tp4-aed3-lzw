@@ -1,10 +1,12 @@
 package view;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.Categoria;
 import model.Tarefa;
+import model.Rotulo;
 
 public class VisaoTarefas {
     private static Scanner sc = new Scanner(System.in);
@@ -57,10 +59,15 @@ public class VisaoTarefas {
         System.out.println("5) Excluir");
         System.out.println("6) Listar");
         System.out.println("7) Listar por Categoria");
+        System.out.println("8. Listar Tarefas por Rótulo");
         System.out.println("0) Retornar ao menu anterior");
 
         System.out.print("Opção: ");
-        return Integer.parseInt(sc.nextLine());
+        try {
+            return Integer.parseInt(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public void mostrarCategorias(ArrayList<Categoria> categorias) {
@@ -79,6 +86,25 @@ public class VisaoTarefas {
                 System.out.println("Número de categoria inválido. Tente novamente.");
             }
         } while (numeroCategoria < 1 || numeroCategoria > totalCategorias);
+        return numeroCategoria;
+    }
+
+    public void mostrarRotulos(ArrayList<Rotulo> rotulos) {
+        System.out.println("\nRotulos disponíveis:");
+        for (int i = 0; i < rotulos.size(); i++) {
+            System.out.println((i + 1) + ". " + rotulos.get(i).getRotulo());
+        }
+    }
+
+    public int selecionaRotulo(int totalRotulos) {
+        int numeroCategoria;
+        do {
+            System.out.print("Selecione a categoria da tarefa: ");
+            numeroCategoria = Integer.parseInt(sc.nextLine());
+            if (numeroCategoria < 1 || numeroCategoria > totalRotulos) {
+                System.out.println("Número de categoria inválido. Tente novamente.");
+            }
+        } while (numeroCategoria < 1 || numeroCategoria > totalRotulos);
         return numeroCategoria;
     }
 }

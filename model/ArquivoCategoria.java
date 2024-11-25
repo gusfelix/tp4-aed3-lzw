@@ -13,7 +13,7 @@ public class ArquivoCategoria extends aed3.Arquivo<Categoria> {
         indiceIndiretoNome = new ArvoreBMais<>(
                 ParNomeId.class.getConstructor(),
                 4,
-                ".\\dados\\indiceNome.db");
+                ".\\dados\\indiceNomeCategoria.db");
     }
 
     @Override

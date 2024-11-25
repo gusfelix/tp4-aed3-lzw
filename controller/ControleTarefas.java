@@ -2,20 +2,19 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.ArquivoCategoria;
-import model.ArquivoTarefa;
-import model.Categoria;
-import model.Tarefa;
+import model.*;
 import view.VisaoTarefas;
 
 public class ControleTarefas {
     private ArquivoTarefa arqTarefas;
     private ArquivoCategoria arqCategorias;
+    private ArquivoRotulo arqRotulos;
     private VisaoTarefas visaoTarefas;
 
     public ControleTarefas() throws Exception {
         arqTarefas = new ArquivoTarefa();
         arqCategorias = new ArquivoCategoria();
+        arqRotulos = new ArquivoRotulo();
         visaoTarefas = new VisaoTarefas();
     }
 
@@ -45,6 +44,9 @@ public class ControleTarefas {
                     break;
                 case 7:
                     listarTarefasPorCategoria();
+                    break;
+                case 8:
+                    listarTarefasPorRotulo();
                     break;
                 case 0:
                     break;
@@ -147,19 +149,87 @@ public class ControleTarefas {
         }
     }
 
+    private int listarCategorias(boolean selecionaCategoria) {
+        try {
+            ArrayList<Categoria> categorias = arqCategorias.readAll();
+            if (categorias.isEmpty()) {
+                System.out.println("Nenhuma categoria cadastrada. Cadastre uma categoria antes de continuar.");
+                return -1;
+            }
+            visaoTarefas.mostrarCategorias(categorias);
+
+            if (selecionaCategoria) {
+                int numeroCategoria = visaoTarefas.selecionaCategoria(categorias.size());
+                int idCategoria = categorias.get(numeroCategoria - 1).getId();
+                return idCategoria;
+            }
+
+            return -1;
+        } catch (Exception e) {
+            System.out.println("Erro ao listar ou encontrar categoria(s): " + e.getMessage());
+            return -1;
+        }
+    }
+
+    private int listarRotulos(boolean selecionaRotulo) {
+        try {
+            ArrayList<Rotulo> rotulos = arqRotulos.readAll();
+            if (rotulos.isEmpty()) {
+                System.out.println("Nenhum rótulo cadastrado. Cadastre um rótulo antes de continuar.");
+                return -1;
+            }
+            visaoTarefas.mostrarRotulos(rotulos);
+
+            if (selecionaRotulo) {
+                int numeroCategoria = visaoTarefas.selecionaRotulo(rotulos.size());
+                int idCategoria = rotulos.get(numeroCategoria - 1).getId();
+                return idCategoria;
+            }
+
+            return -1;
+        } catch (Exception e) {
+            System.out.println("Erro ao listar ou encontrar categoria(s): " + e.getMessage());
+            return -1;
+        }
+    }
+
     private void listarTarefasPorCategoria() {
         try {
-            int idCategoria = visaoTarefas.leIdCategoria();
-            ArrayList<Tarefa> tarefas = arqTarefas.readByCategoria(idCategoria);
-            if (tarefas.isEmpty()) {
-                System.out.println("Nenhuma tarefa encontrada para a categoria informada.");
-            } else {
-                for (Tarefa tarefa : tarefas) {
-                    visaoTarefas.mostraTarefa(tarefa);
+            int idCategoria = listarCategorias(true);
+
+            if (idCategoria != -1) {
+                ArrayList<Tarefa> tarefas = arqTarefas.readByCategoria(idCategoria);
+
+                if (tarefas.isEmpty()) {
+                    System.out.println("Nenhuma tarefa encontrada para a categoria informada.");
+                } else {
+                    for (Tarefa tarefa : tarefas) {
+                        visaoTarefas.mostraTarefa(tarefa);
+                    }
                 }
             }
         } catch (Exception e) {
             System.out.println("Erro ao listar tarefas por categoria: " + e.getMessage());
+        }
+    }
+
+    private void listarTarefasPorRotulo() {
+        try {
+            int idRotulo = listarRotulos(true);
+
+            if (idRotulo != -1) {
+                ArrayList<Tarefa> tarefas = arqTarefas.readByRotulo(idRotulo);
+
+                if (tarefas.isEmpty()) {
+                    System.out.println("Nenhuma tarefa encontrada para o rótulo informado.");
+                } else {
+                    for (Tarefa tarefa : tarefas) {
+                        visaoTarefas.mostraTarefa(tarefa);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar tarefas por rótulo: " + e.getMessage());
         }
     }
 }

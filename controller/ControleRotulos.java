@@ -1,20 +1,16 @@
 package controller;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import model.ArquivoRotulo;
-import model.Rotulo;
+import model.*;
 import view.VisaoRotulos;
-import java.util.List;
 
 public class ControleRotulos {
     private ArquivoRotulo arquivoRotulo;
     private VisaoRotulos visaoRotulos;
-    private ControleTarefas controleTarefas;
 
-    public ControleRotulos(ControleTarefas controleTarefas) {
+    public ControleRotulos(ControleTarefas controleTarefas) throws Exception {
         this.arquivoRotulo = new ArquivoRotulo();
-        this.controleTarefas = controleTarefas;
         this.visaoRotulos = new VisaoRotulos(this, controleTarefas);
     }
 
@@ -22,32 +18,32 @@ public class ControleRotulos {
         visaoRotulos.menu();
     }
 
-    public void incluirRotulo(String rotulo) {
+    public void incluirRotulo(String rotulo) throws Exception {
         Rotulo novoRotulo = new Rotulo(rotulo);
-        arquivoRotulo.incluir(novoRotulo);
+        arquivoRotulo.create(novoRotulo);
     }
 
-    public Rotulo buscarRotulo(int id) {
-        return arquivoRotulo.buscar(id);
+    public Rotulo buscarRotulo(String rotulo) throws Exception {
+        return arquivoRotulo.read(rotulo);
     }
 
-    public void alterarRotulo(int id, String novoRotulo) {
-        Rotulo rotulo = arquivoRotulo.buscar(id);
+    public void alterarRotulo(String antigoRotulo, String novoRotulo) throws Exception {
+        Rotulo rotulo = arquivoRotulo.read(antigoRotulo);
         if (rotulo != null) {
             rotulo.setRotulo(novoRotulo);
-            arquivoRotulo.alterar(rotulo);
+            arquivoRotulo.update(rotulo);
         }
     }
 
-    public void excluirRotulo(int id) {
-        arquivoRotulo.excluir(id);
+    public void excluirRotulo(String rotulo) throws Exception {
+        arquivoRotulo.delete(rotulo);
     }
 
-    public List<Rotulo> listarRotulos() {
-        return arquivoRotulo.listar();
+    public ArrayList<Rotulo> listarRotulos() throws Exception {
+        return arquivoRotulo.readAll();
     }
 
-    public List<Integer> listarTarefas(int idRotulo) {
-        return arquivoRotulo.listarTarefas(idRotulo);
+    public ArrayList<Tarefa> listarTarefas(String rotulo) throws Exception {
+        return arquivoRotulo.readTarefasByRotulo(rotulo);
     }
 }

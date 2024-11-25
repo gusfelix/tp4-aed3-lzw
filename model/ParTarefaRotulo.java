@@ -28,6 +28,14 @@ public class ParTarefaRotulo implements aed3.RegistroArvoreBMais<ParTarefaRotulo
         }
     }
 
+    public int getTarefa() {
+        return this.idTarefa;
+    }
+
+    public int getRotulo() {
+        return this.idRotulo;
+    }
+
     @Override
     public ParTarefaRotulo clone() {
         return new ParTarefaRotulo(this.idTarefa, this.idRotulo);

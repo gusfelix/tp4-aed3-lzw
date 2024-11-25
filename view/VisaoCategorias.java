@@ -1,4 +1,5 @@
 package view;
+
 import java.util.Scanner;
 
 import model.Categoria;
@@ -8,7 +9,7 @@ public class VisaoCategorias {
 
     public String leNomeCategoria() {
         System.out.print("Nome da categoria: ");
-        return sc.nextLine();
+        return sc.nextLine().trim();
     }
 
     public void mostraCategoria(Categoria categoria) {

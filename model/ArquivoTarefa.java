@@ -42,7 +42,25 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
     }
 
     public ArrayList<Tarefa> readByCategoria(int categoriaId) throws Exception {
-        ArrayList<ParCategoriaId> pciList = indiceIndiretoCategoria.read(new ParCategoriaId(-1, categoriaId));
+        ArrayList<ParCategoriaId> pciList = indiceIndiretoCategoria.read(new ParCategoriaId(categoriaId));
+        ArrayList<Tarefa> tarefas = new ArrayList<>();
+
+        if (pciList.isEmpty()) {
+            return tarefas;
+        }
+
+        for (ParCategoriaId pci : pciList) {
+            Tarefa tarefa = read(pci.getIdTarefa());
+            if (tarefa != null) {
+                tarefas.add(tarefa);
+            }
+        }
+
+        return tarefas;
+    }
+
+    public ArrayList<Tarefa> readByRotulo(int rotuloId) throws Exception {
+        ArrayList<ParCategoriaId> pciList = indiceIndiretoCategoria.read(new ParCategoriaId(-1, rotuloId));
         ArrayList<Tarefa> tarefas = new ArrayList<>();
 
         if (pciList.isEmpty()) {
