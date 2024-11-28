@@ -22,20 +22,28 @@ Durante o desenvolvimento deste projeto, enfrentamos diversos desafios que nos p
 #### `MenuTarefas.java`
 
 * **MenuTarefas()** : Construtor que inicializa o menu de tarefas.
-* **exibirMenu()** : Exibe o menu de tarefas e executa as operações selecionadas.
+* **menu()** : Exibe o menu de tarefas e executa as operações selecionadas.
+* **incluirCategoria()** : Inclui uma nova categoria.
+* **buscarCategoria()** : Busca uma categoria pelo nome.
+* **alterarCategoria()** : Altera uma categoria existente.
+* **excluirCategoria()** : Exclui uma categoria pelo nome.
 
 #### `VisaoTarefas.java`
 
 * **VisaoTarefas()** : Construtor que inicializa a visão de tarefas.
 * **menu()** : Exibe o menu de tarefas e executa as operações selecionadas.
-* **incluirTarefa()** : Inclui uma nova tarefa.
-* **buscarTarefa()** : Busca uma tarefa pelo nome.
-* **alterarTarefa()** : Altera uma tarefa existente.
-* **excluirTarefa()** : Exclui uma tarefa pelo nome.
-* **listarTarefas()** : Lista todas as tarefas.
-* **listarTarefasPorCategoria()** : Lista tarefas por categoria.
-* **listarTarefasPorRotulo()** : Lista tarefas por rótulo.
-* **listarTarefasPorTermo()** : Lista tarefas por termo.
+* **leTarefa(int idCategoria)** : Lê os dados de uma nova tarefa.
+* **editaTarefa(Tarefa tarefa, ArrayList<Categoria> categorias)** : Edita os dados de uma tarefa existente.
+* **adicionaRotulosTarefa(ArrayList<Rotulo> rotulos)** : Adiciona rótulos a uma tarefa.
+* **removeRotulosTarefa(ArrayList<Rotulo> rotulosAtuais)** : Remove rótulos de uma tarefa.
+* **leBusca()** : Lê os termos de busca.
+* **leIdTarefa()** : Lê o ID de uma tarefa.
+* **mostraTarefa(Tarefa tarefa)** : Mostra os dados de uma tarefa.
+* **mostrarCategorias(ArrayList<Categoria> categorias)** : Mostra a lista de categorias.
+* **selecionaCategoria(int totalCategorias)** : Seleciona uma categoria.
+* **mostrarRotulos(ArrayList<Rotulo> rotulos)** : Mostra a lista de rótulos.
+* **selecionaRotulo(int totalRotulos)** : Seleciona um rótulo.
+* **selecionaMultiplosRotulos(int totalRotulos)** : Seleciona múltiplos rótulos.
 
 #### `VisaoRotulos.java`
 
@@ -46,7 +54,6 @@ Durante o desenvolvimento deste projeto, enfrentamos diversos desafios que nos p
 * **alterarRotulo()** : Altera um rótulo existente.
 * **excluirRotulo()** : Exclui um rótulo pelo nome.
 * **listarRotulos()** : Lista todos os rótulos.
-* **listarTarefasPorRotulo()** : Lista tarefas associadas a um rótulo.
 
 #### `VisaoCategorias.java`
 
@@ -91,21 +98,37 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 
 * **ParTarefaRotulo(int idTarefa, int idRotulo)** : Construtor que inicializa o par tarefa-rótulo.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
+* **toByteArray()** : Serializa o objeto em um array de bytes.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParTarefaRotulo.
+* **compareTo(ParTarefaRotulo a)** : Compara dois objetos ParTarefaRotulo.
+* **clone()** : Clona o objeto ParTarefaRotulo.
 
 #### `ParRotuloTarefa.java`
 
 * **ParRotuloTarefa(int idRotulo, int idTarefa)** : Construtor que inicializa o par rótulo-tarefa.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
+* **toByteArray()** : Serializa o objeto em um array de bytes.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParRotuloTarefa.
+* **compareTo(ParRotuloTarefa a)** : Compara dois objetos ParRotuloTarefa.
+* **clone()** : Clona o objeto ParRotuloTarefa.
 
 #### `ParNomeId.java`
 
 * **ParNomeId(String nome, int id)** : Construtor que inicializa o par nome-ID.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
+* **toByteArray()** : Serializa o objeto em um array de bytes.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParNomeId.
+* **compareTo(ParNomeId a)** : Compara dois objetos ParNomeId.
+* **clone()** : Clona o objeto ParNomeId.
 
 #### `ParCategoriaId.java`
 
 * **ParCategoriaId(int idCategoria, int id)** : Construtor que inicializa o par categoria-ID.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
+* **toByteArray()** : Serializa o objeto em um array de bytes.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParCategoriaId.
+* **compareTo(ParCategoriaId a)** : Compara dois objetos ParCategoriaId.
+* **clone()** : Clona o objeto ParCategoriaId.
 
 #### `Categoria.java`
 
@@ -120,6 +143,7 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 
 * **ArquivoTarefa()** : Construtor que inicializa o arquivo de tarefas e os índices indiretos.
 * **create(Tarefa t)** : Cria uma nova tarefa.
+* **create(Tarefa t, ArrayList<Integer> rotulos)** : Cria uma nova tarefa com rótulos.
 * **read(int id)** : Lê uma tarefa pelo ID.
 * **delete(int id)** : Exclui uma tarefa pelo ID.
 * **update(Tarefa novaTarefa)** : Atualiza uma tarefa existente.
@@ -127,6 +151,9 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **readByCategoria(int categoriaId)** : Lê tarefas por categoria.
 * **readByRotulo(int rotuloId)** : Lê tarefas por rótulo.
 * **readByTermo(String termo)** : Lê tarefas por termo usando índice invertido.
+* **readRotulosByTarefa(int tarefaId)** : Lê os rótulos associados a uma tarefa.
+* **newParTarefaRotulo(int idTarefa, int idRotulo)** : Cria um novo par tarefa-rótulo.
+* **deleteParTarefaRotulo(int idTarefa, int idRotulo)** : Exclui um par tarefa-rótulo.
 
 #### `ArquivoRotulo.java`
 
@@ -136,7 +163,6 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **delete(String nome)** : Exclui um rótulo pelo nome.
 * **update(Rotulo novoRotulo)** : Atualiza um rótulo existente.
 * **readAll()** : Lê todos os rótulos.
-* **readTarefasByRotulo(String nome)** : Lê tarefas associadas a um rótulo.
 
 #### `ArquivoCategoria.java`
 
@@ -149,7 +175,7 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 
 #### `ControleTarefas.java`
 
-* **ControleTarefas()** : Construtor que inicializa os arquivos de tarefas e categorias e a visão de tarefas.
+* **ControleTarefas()** : Construtor que inicializa os arquivos de tarefas, categorias e rótulos e a visão de tarefas.
 * **iniciar()** : Inicia o controle de tarefas, exibindo o menu e executando as operações selecionadas.
 * **incluirTarefa()** : Inclui uma nova tarefa.
 * **buscarTarefa()** : Busca uma tarefa pelo nome.
@@ -169,7 +195,6 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **alterarRotulo()** : Altera um rótulo existente.
 * **excluirRotulo()** : Exclui um rótulo pelo nome.
 * **listarRotulos()** : Lista todos os rótulos.
-* **listarTarefasPorRotulo()** : Lista tarefas associadas a um rótulo.
 
 #### `ControleCategorias.java`
 
@@ -242,7 +267,7 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **escrever(int posicao, byte[] dados)** : Escreve um registro no arquivo.
 * **tamanho()** : Retorna o tamanho do arquivo.
 
-### Perguntas Frequentes
+### Perguntas
 
 1. **O índice invertido com os termos das tarefas foi criado usando a classe ListaInvertida?**
   Sim, o índice invertido com os termos das tarefas foi criado utilizando a classe `ListaInvertida`. Esta classe permite inserir termos e IDs de tarefas, buscar tarefas associadas a um termo e remover termos e IDs de tarefas da lista invertida.
