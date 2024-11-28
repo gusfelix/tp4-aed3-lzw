@@ -75,7 +75,7 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **Tarefa(int id, int idCategoria, String nome, LocalDate criacao, LocalDate conclusao, short status, short prioridade)** : Construtor completo.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 * **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte b)** : Desserializa um array de bytes em um objeto Tarefa.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto Tarefa.
 * **toString()** : Retorna uma representação em string do objeto.
 
 #### `Rotulo.java`
@@ -84,7 +84,7 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **Rotulo(int id, String rotulo)** : Construtor com parâmetros.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 * **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte b)** : Desserializa um array de bytes em um objeto Rotulo.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto Rotulo.
 * **toString()** : Retorna uma representação em string do objeto.
 
 #### `ParTarefaRotulo.java`
@@ -113,7 +113,7 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **Categoria(int id, String nome)** : Construtor com parâmetros.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 * **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte b)** : Desserializa um array de bytes em um objeto Categoria.
+* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto Categoria.
 * **toString()** : Retorna uma representação em string do objeto.
 
 #### `ArquivoTarefa.java`
@@ -245,22 +245,22 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 ### Perguntas Frequentes
 
 1. **O índice invertido com os termos das tarefas foi criado usando a classe ListaInvertida?**
-   Sim, o índice invertido com os termos das tarefas foi criado utilizando a classe `ListaInvertida`. Esta classe permite inserir termos e IDs de tarefas, buscar tarefas associadas a um termo e remover termos e IDs de tarefas da lista invertida.
+  Sim, o índice invertido com os termos das tarefas foi criado utilizando a classe `ListaInvertida`. Esta classe permite inserir termos e IDs de tarefas, buscar tarefas associadas a um termo e remover termos e IDs de tarefas da lista invertida.
 
 2. **O CRUD de rótulos foi implementado?**
-   Sim, o CRUD de rótulos foi implementado. A classe `ArquivoRotulo` contém métodos para criar (`create`), ler (`read`), atualizar (`update`) e excluir (`delete`) rótulos. Além disso, é possível listar todos os rótulos e ler tarefas associadas a um rótulo específico.
+  Sim, o CRUD de rótulos foi implementado. A classe `ArquivoRotulo` contém métodos para criar (`create`), ler (`read`), atualizar (`update`) e excluir (`delete`) rótulos. Além disso, é possível listar todos os rótulos e ler tarefas associadas a um rótulo específico.
 
 3. **No arquivo de tarefas, os rótulos são incluídos, alterados e excluídos em uma árvore B+?**
-   Sim, no arquivo de tarefas, os rótulos são incluídos, alterados e excluídos utilizando uma árvore B+. A classe `ArvoreBMais` é responsável por gerenciar a inserção, busca e remoção de chaves e endereços, garantindo uma estrutura eficiente para essas operações.
+  Sim, no arquivo de tarefas, os rótulos são incluídos, alterados e excluídos utilizando uma árvore B+. A classe `ArvoreBMais` é responsável por gerenciar a inserção, busca e remoção de chaves e endereços, garantindo uma estrutura eficiente para essas operações.
 
 4. **É possível buscar tarefas por palavras usando o índice invertido?**
-   Sim, é possível buscar tarefas por palavras utilizando o índice invertido. A classe `ListaInvertida` permite buscar tarefas associadas a um termo específico, facilitando a localização de tarefas com base em palavras-chave.
+  Sim, é possível buscar tarefas por palavras utilizando o índice invertido. A classe `ListaInvertida` permite buscar tarefas associadas a um termo específico, facilitando a localização de tarefas com base em palavras-chave.
 
 5. **É possível buscar tarefas por rótulos usando uma árvore B+?**
-   Sim, é possível buscar tarefas por rótulos utilizando uma árvore B+. A classe `ArvoreBMais` permite buscar endereços associados a chaves específicas, o que facilita a localização de tarefas com base em rótulos.
+  Sim, é possível buscar tarefas por rótulos utilizando uma árvore B+. A classe `ArvoreBMais` permite buscar endereços associados a chaves específicas, o que facilita a localização de tarefas com base em rótulos.
 
 6. **O trabalho está completo?**
-   Sim, o trabalho está completo. Todas as funcionalidades especificadas foram implementadas, incluindo a criação, leitura, atualização e exclusão de tarefas, categorias e rótulos, além da utilização de estruturas de dados avançadas para otimizar as operações de busca e manipulação de dados.
+  Sim, o trabalho está completo. Todas as funcionalidades especificadas foram implementadas, incluindo a criação, leitura, atualização e exclusão de tarefas, categorias e rótulos, além da utilização de estruturas de dados avançadas para otimizar as operações de busca e manipulação de dados.
 
 7. **O trabalho é original e não a cópia de um trabalho de um colega?**
-   Sim, o trabalho é original e não é a cópia de um trabalho de um colega. Todo o código foi desenvolvido pela nossa equipe, seguindo as especificações e requisitos do projeto.
+  Sim, o trabalho é original e não é a cópia de um trabalho de um colega. Todo o código foi desenvolvido pela nossa equipe, seguindo as especificações e requisitos do projeto.
