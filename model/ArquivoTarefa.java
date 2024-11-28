@@ -11,6 +11,7 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
     private ArvoreBMais<ParCategoriaId> indiceIndiretoCategoria;
     private ArvoreBMais<ParRotuloTarefa> indiceIndiretoRotuloTarefa;
+    private ArvoreBMais<ParTarefaRotulo> indiceIndiretoTarefaRotulo;
     private ArvoreBMais<ParNomeId> indiceIndiretoNomeRotulo;
     private ListaInvertida listaInvertida;
 
@@ -24,6 +25,10 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
                 ParRotuloTarefa.class.getConstructor(),
                 4,
                 ".\\dados\\indiceRotuloTarefa.db");
+        indiceIndiretoTarefaRotulo = new ArvoreBMais<>(
+                ParTarefaRotulo.class.getConstructor(),
+                4,
+                ".\\dados\\indiceTarefaRotulo.db");
         indiceIndiretoNomeRotulo = new ArvoreBMais<>(
                 ParNomeId.class.getConstructor(),
                 4,
@@ -34,13 +39,6 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
                 "dados/blocos.listainv.db");
     }
 
-    /*
-     * TODO adicionar parametro 'rotulos' do tipo ArrayList<Rotulo> para lidar com a
-     * criação de rótulos. Adicionar em 'create' associção de rótulos a tarefas,
-     * criando um
-     * registro em indiceIndiretoRotulo e em indiceIndiretoTarefa para cada rótulo
-     * associado à nova tarefa
-     */
     @Override
     public int create(Tarefa t) throws Exception {
 
@@ -56,6 +54,28 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
         indiceIndiretoCategoria.create(new ParCategoriaId(id, t.getIdCategoria()));
         return id;
+    }
+
+    public int create(Tarefa t, ArrayList<Integer> rotulos) throws Exception {
+
+        int id = create(t);
+
+        for (int rotulo : rotulos) {
+            indiceIndiretoTarefaRotulo.create(new ParTarefaRotulo(id, rotulo));
+            indiceIndiretoRotuloTarefa.create(new ParRotuloTarefa(rotulo, id));
+        }
+
+        return id;
+    }
+
+    public void newParTarefaRotulo(int idTarefa, int idRotulo) throws Exception {
+        indiceIndiretoTarefaRotulo.create(new ParTarefaRotulo(idTarefa, idRotulo));
+        indiceIndiretoRotuloTarefa.create(new ParRotuloTarefa(idRotulo, idTarefa));
+    }
+
+    public void deleteParTarefaRotulo(int idTarefa, int idRotulo) throws Exception {
+        indiceIndiretoTarefaRotulo.delete(new ParTarefaRotulo(idTarefa, idRotulo));
+        indiceIndiretoRotuloTarefa.delete(new ParRotuloTarefa(idRotulo, idTarefa));
     }
 
     public ArrayList<Tarefa> readByCategoria(int categoriaId) throws Exception {
@@ -94,10 +114,20 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         return tarefas;
     }
 
-    /*
-     * TODO ao excliuir uma tarefa, excluir também os registros associados em
-     * indiceIndiretoTarefa e indiceIndiretoRotulo
-     */
+    public ArrayList<Rotulo> readRotulosByTarefa(int tarefaId) throws Exception {
+        ArrayList<ParTarefaRotulo> paresTarefaRotulo = indiceIndiretoTarefaRotulo.read(new ParTarefaRotulo(tarefaId));
+        ArrayList<Rotulo> rotulos = new ArrayList<>();
+
+        for (ParTarefaRotulo parTarefaRotulo : paresTarefaRotulo) {
+            Rotulo rotulo = new ArquivoRotulo().read(parTarefaRotulo.getRotulo());
+            if (rotulo != null) {
+                rotulos.add(rotulo);
+            }
+        }
+
+        return rotulos;
+    }
+
     public boolean delete(int tarefaId) throws Exception {
         Tarefa tarefa = read(tarefaId);
 
@@ -113,6 +143,13 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         }
 
         listaInvertida.decrementaEntidades();
+
+        ArrayList<ParTarefaRotulo> paresTarefaRotulo = indiceIndiretoTarefaRotulo.read(new ParTarefaRotulo(tarefaId));
+
+        for (ParTarefaRotulo parTarefaRotulo : paresTarefaRotulo) {
+            indiceIndiretoTarefaRotulo.delete(parTarefaRotulo);
+            indiceIndiretoRotuloTarefa.delete(new ParRotuloTarefa(parTarefaRotulo.getRotulo(), tarefaId));
+        }
 
         boolean removed = super.delete(tarefaId);
         if (removed) {

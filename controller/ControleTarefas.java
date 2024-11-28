@@ -56,25 +56,31 @@ public class ControleTarefas {
         } while (opcao != 0);
     }
 
-    /*
-     * TODO: chamar listarRotulos(true) para exibir os rótulos disponíveis e o
-     * usuário selecionar quais serão associados à nova tarefa. Passar o arraylist
-     * de rotulos para a função create de ArquivoTarefa
-     */
     private void incluirTarefa() throws Exception {
         ArrayList<Categoria> categorias = arqCategorias.readAll();
+        ArrayList<Rotulo> rotulos = arqRotulos.readAll();
         if (categorias.isEmpty()) {
             System.out.println("Nenhuma categoria cadastrada. Cadastre uma categoria antes de incluir uma tarefa.");
             return;
         }
 
         visaoTarefas.mostrarCategorias(categorias);
-
         int numeroCategoria = visaoTarefas.selecionaCategoria(categorias.size());
         int idCategoria = categorias.get(numeroCategoria - 1).getId();
 
+        ArrayList<Integer> idsRotulos = new ArrayList<>();
+        if (rotulos.size() > 0) {
+            visaoTarefas.mostrarRotulos(rotulos);
+            int[] rotulosSelecionados = visaoTarefas.selecionaMultiplosRotulos(rotulos.size());
+            for (int i : rotulosSelecionados) {
+                idsRotulos.add(rotulos.get(i - 1).getId());
+            }
+        } else {
+            System.out.println("Nenhum rótulo cadastrado.");
+        }
+
         Tarefa novaTarefa = visaoTarefas.leTarefa(idCategoria);
-        int idGerado = arqTarefas.create(novaTarefa);
+        int idGerado = arqTarefas.create(novaTarefa, idsRotulos);
         novaTarefa.setId(idGerado);
         System.out.println("Tarefa incluída com sucesso.");
     }
@@ -84,6 +90,7 @@ public class ControleTarefas {
         Tarefa tarefa = arqTarefas.read(id);
         if (tarefa != null) {
             visaoTarefas.mostraTarefa(tarefa);
+            visaoTarefas.mostrarRotulos(arqTarefas.readRotulosByTarefa(tarefa.getId()));
         } else {
             System.out.println("Tarefa não encontrada.");
         }
@@ -101,6 +108,7 @@ public class ControleTarefas {
             } else {
                 for (Tarefa tarefa : tarefas) {
                     visaoTarefas.mostraTarefa(tarefa);
+                    visaoTarefas.mostrarRotulos(arqTarefas.readRotulosByTarefa(tarefa.getId()));
                 }
             }
         } catch (Exception e) {
@@ -113,13 +121,29 @@ public class ControleTarefas {
         Tarefa tarefaAntiga = arqTarefas.read(id);
         if (tarefaAntiga != null) {
             ArrayList<Categoria> categorias = arqCategorias.readAll();
-            visaoTarefas.mostrarCategorias(categorias);
+            ArrayList<Rotulo> rotulos = arqRotulos.readAll();
+            ArrayList<Rotulo> rotulosTarefa = arqTarefas.readRotulosByTarefa(tarefaAntiga.getId());
 
-            int numeroCategoria = visaoTarefas.selecionaCategoria(categorias.size());
-            int idCategoria = categorias.get(numeroCategoria - 1).getId();
+            Tarefa novaTarefa = visaoTarefas.editaTarefa(tarefaAntiga, categorias);
+            int[] rotulosSelecionadosParaAdicionar = visaoTarefas.adicionaRotulosTarefa(rotulos);
 
-            Tarefa novaTarefa = visaoTarefas.leTarefa(idCategoria);
-            novaTarefa.setId(id);
+            for (int i : rotulosSelecionadosParaAdicionar) {
+                Rotulo rotulo = rotulos.get(i - 1);
+
+                if (rotulosTarefa.contains(rotulo) == false) {
+                    rotulosTarefa.add(rotulo);
+                    arqTarefas.newParTarefaRotulo(novaTarefa.getId(), rotulo.getId());
+                }
+            }
+
+            int[] rotulosSelecionadosParaRemover = visaoTarefas.removeRotulosTarefa(rotulosTarefa);
+
+            for (int i : rotulosSelecionadosParaRemover) {
+                Rotulo rotulo = rotulosTarefa.get(i - 1);
+                rotulosTarefa.remove(rotulo);
+                arqTarefas.deleteParTarefaRotulo(novaTarefa.getId(), rotulo.getId());
+            }
+
             if (arqTarefas.update(novaTarefa)) {
                 System.out.println("Tarefa alterada com sucesso.");
             } else {
@@ -147,6 +171,7 @@ public class ControleTarefas {
             } else {
                 for (Tarefa tarefa : tarefas) {
                     visaoTarefas.mostraTarefa(tarefa);
+                    visaoTarefas.mostrarRotulos(arqTarefas.readRotulosByTarefa(tarefa.getId()));
                 }
             }
         } catch (Exception e) {
@@ -210,6 +235,7 @@ public class ControleTarefas {
                 } else {
                     for (Tarefa tarefa : tarefas) {
                         visaoTarefas.mostraTarefa(tarefa);
+                        visaoTarefas.mostrarRotulos(arqTarefas.readRotulosByTarefa(tarefa.getId()));
                     }
                 }
             }
@@ -230,6 +256,7 @@ public class ControleTarefas {
                 } else {
                     for (Tarefa tarefa : tarefas) {
                         visaoTarefas.mostraTarefa(tarefa);
+                        visaoTarefas.mostrarRotulos(arqTarefas.readRotulosByTarefa(tarefa.getId()));
                     }
                 }
             }

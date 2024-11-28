@@ -28,6 +28,7 @@ public class ArquivoRotulo extends aed3.Arquivo<Rotulo> {
     @Override
     public int create(Rotulo r) throws Exception {
         int id = super.create(r);
+        indiceIndiretoNome.create(new ParNomeId(r.getRotulo(), id));
         return id;
     }
 

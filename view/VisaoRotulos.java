@@ -19,13 +19,13 @@ public class VisaoRotulos {
     public void menu() {
         int opcao;
         do {
-            System.out.println("1. Incluir Rótulo");
-            System.out.println("2. Buscar Rótulo");
-            System.out.println("3. Alterar Rótulo");
-            System.out.println("4. Excluir Rótulo");
-            System.out.println("5. Listar Rótulos");
-            System.out.println("6. Listar Tarefas por Rotulo");
-            System.out.println("0. Sair");
+            System.out.println("1) Incluir Rótulo");
+            System.out.println("2) Buscar Rótulo");
+            System.out.println("3) Alterar Rótulo");
+            System.out.println("4) Excluir Rótulo");
+            System.out.println("5) Listar Rótulos");
+            System.out.println("0) Sair");
+            System.out.print("Opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -45,6 +45,10 @@ public class VisaoRotulos {
                 case 5:
                     listarRotulos();
                     break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
     }
