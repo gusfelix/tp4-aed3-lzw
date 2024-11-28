@@ -6,16 +6,13 @@ import java.util.Scanner;
 import controller.ControleRotulos;
 import controller.ControleTarefas;
 import model.Rotulo;
-import model.Tarefa;
 
 public class VisaoRotulos {
     private ControleRotulos controleRotulos;
-    private ControleTarefas controleTarefas;
     private Scanner scanner;
 
     public VisaoRotulos(ControleRotulos controleRotulos, ControleTarefas controleTarefas) {
         this.controleRotulos = controleRotulos;
-        this.controleTarefas = controleTarefas;
         this.scanner = new Scanner(System.in);
     }
 
@@ -47,9 +44,6 @@ public class VisaoRotulos {
                     break;
                 case 5:
                     listarRotulos();
-                    break;
-                case 6:
-                    mostrarTarefasAssociadas();
                     break;
             }
         } while (opcao != 0);
@@ -110,22 +104,6 @@ public class VisaoRotulos {
             }
         } catch (Exception e) {
             System.out.println("Erro ao listar rótulos: " + e.getMessage());
-        }
-    }
-
-    private void mostrarTarefasAssociadas() {
-        try {
-            System.out.print("Nome do Rótulo: ");
-            String nomeRotulo = scanner.nextLine();
-            ArrayList<Tarefa> tarefas = controleRotulos.listarTarefas(nomeRotulo);
-            for (Tarefa tarefa : tarefas) {
-                tarefa = controleTarefas.buscarTarefa(tarefa.getId());
-                if (tarefa != null) {
-                    System.out.println(tarefa.getId() + ": " + tarefa.getNome());
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao listar tarefas associadas ao rótulo: " + e.getMessage());
         }
     }
 }

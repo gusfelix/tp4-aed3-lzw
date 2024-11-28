@@ -10,21 +10,24 @@ import java.util.Map;
 public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
     private ArvoreBMais<ParCategoriaId> indiceIndiretoCategoria;
-    /* TODO descomentar linhas abaixo */
-    // private ArvoreBMais<ParRotuloTarefa> indiceIndiretoRotulo;
-    // private ArvoreBMais<ParTarefaRotulo> indiceIndiretoTarefa;
+    private ArvoreBMais<ParRotuloTarefa> indiceIndiretoRotuloTarefa;
+    private ArvoreBMais<ParNomeId> indiceIndiretoNomeRotulo;
     private ListaInvertida listaInvertida;
 
-    /*
-     * TODO adicionar no construtor a inicialização de indiceIndiretoRotulo e
-     * indiceIndiretoTarefa
-     */
     public ArquivoTarefa() throws Exception {
         super("tarefas", Tarefa.class.getConstructor());
         indiceIndiretoCategoria = new ArvoreBMais<>(
                 ParCategoriaId.class.getConstructor(),
                 4,
                 ".\\dados\\indiceCategoria.db");
+        indiceIndiretoRotuloTarefa = new ArvoreBMais<>(
+                ParRotuloTarefa.class.getConstructor(),
+                4,
+                ".\\dados\\indiceRotuloTarefa.db");
+        indiceIndiretoNomeRotulo = new ArvoreBMais<>(
+                ParNomeId.class.getConstructor(),
+                4,
+                ".\\dados\\indiceNomeRotulo.db");
         listaInvertida = new ListaInvertida(
                 4,
                 "dados/dicionario.listainv.db",
@@ -74,15 +77,15 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
     }
 
     public ArrayList<Tarefa> readByRotulo(int rotuloId) throws Exception {
-        ArrayList<ParCategoriaId> pciList = indiceIndiretoCategoria.read(new ParCategoriaId(-1, rotuloId));
+        ArrayList<ParRotuloTarefa> prtList = indiceIndiretoRotuloTarefa.read(new ParRotuloTarefa(rotuloId));
         ArrayList<Tarefa> tarefas = new ArrayList<>();
 
-        if (pciList.isEmpty()) {
+        if (prtList.isEmpty()) {
             return tarefas;
         }
 
-        for (ParCategoriaId pci : pciList) {
-            Tarefa tarefa = read(pci.getIdTarefa());
+        for (ParRotuloTarefa prt : prtList) {
+            Tarefa tarefa = read(prt.getTarefa());
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
@@ -182,14 +185,9 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
 
         resultado.sort((e1, e2) -> Float.compare(e2.getFrequencia(), e1.getFrequencia()));
 
-        // for (ElementoLista elemento : resultado) {
-        // System.out.println("("+ elemento.getId() +", "+ elemento.getFrequencia()
-        // +")");
-        // }
-
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         for (ElementoLista elemento : resultado) {
-            Tarefa tarefa = read(elemento.getId()); // Obter a tarefa pelo ID
+            Tarefa tarefa = read(elemento.getId());
             if (tarefa != null) {
                 tarefas.add(tarefa);
             }
@@ -198,12 +196,25 @@ public class ArquivoTarefa extends aed3.Arquivo<Tarefa> {
         return tarefas;
     }
 
-    /*
-     * TODO implementar método readRotulosByTarefa que recebe o ID de uma tarefa e
-     * busca em indiceIndiretoTarefa todos os registros com esse ID e retorna os
-     * rotulos associados do tipo ArrayList<Rotulo>
-     */
-    public ArrayList<Rotulo> readRotulosByTarefa(int tarefaId) throws Exception {
-        return null;
+    public ArrayList<Tarefa> readTarefasByRotulo(String nome) throws Exception {
+        ArrayList<Tarefa> tarefas = new ArrayList<>();
+
+        ArrayList<ParNomeId> paresRotuloId = indiceIndiretoNomeRotulo.read(new ParNomeId(nome));
+        if (paresRotuloId.isEmpty()) {
+            return tarefas;
+        }
+        ParNomeId parNomeId = paresRotuloId.get(0);
+
+        ArrayList<ParRotuloTarefa> paresRotuloTarefa = indiceIndiretoRotuloTarefa
+                .read(new ParRotuloTarefa(parNomeId.getId()));
+
+        for (ParRotuloTarefa parRotuloTarefa : paresRotuloTarefa) {
+            Tarefa tarefa = read(parRotuloTarefa.getTarefa());
+            if (tarefa != null) {
+                tarefas.add(tarefa);
+            }
+        }
+
+        return tarefas;
     }
 }

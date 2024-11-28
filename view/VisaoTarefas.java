@@ -54,7 +54,7 @@ public class VisaoTarefas {
         System.out.println("5) Excluir");
         System.out.println("6) Listar");
         System.out.println("7) Listar por Categoria");
-        System.out.println("8. Listar Rótulos de Tarefa");
+        System.out.println("8. Listar por Rótulo");
         System.out.println("0) Retornar ao menu anterior");
 
         System.out.print("Opção: ");
@@ -94,10 +94,10 @@ public class VisaoTarefas {
     public int selecionaRotulo(int totalRotulos) {
         int numeroRotulo;
         do {
-            System.out.print("Selecione a categoria da tarefa: ");
+            System.out.print("Selecione o rotulo da tarefa: ");
             numeroRotulo = Integer.parseInt(sc.nextLine());
             if (numeroRotulo < 1 || numeroRotulo > totalRotulos) {
-                System.out.println("Número de categoria inválido. Tente novamente.");
+                System.out.println("Número de rotulo inválido. Tente novamente.");
             }
         } while (numeroRotulo < 1 || numeroRotulo > totalRotulos);
         return numeroRotulo;

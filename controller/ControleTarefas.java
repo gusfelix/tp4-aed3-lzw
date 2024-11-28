@@ -46,7 +46,7 @@ public class ControleTarefas {
                     listarTarefasPorCategoria();
                     break;
                 case 8:
-                    listarRotulosPorTarefa();
+                    listarTarefasPorRotulo();
                     break;
                 case 0:
                     break;
@@ -186,14 +186,14 @@ public class ControleTarefas {
             visaoTarefas.mostrarRotulos(rotulos);
 
             if (selecionaRotulo) {
-                int numeroCategoria = visaoTarefas.selecionaRotulo(rotulos.size());
-                int idCategoria = rotulos.get(numeroCategoria - 1).getId();
-                return idCategoria;
+                int numeroRotulo = visaoTarefas.selecionaRotulo(rotulos.size());
+                int idRotulo = rotulos.get(numeroRotulo - 1).getId();
+                return idRotulo;
             }
 
             return -1;
         } catch (Exception e) {
-            System.out.println("Erro ao listar ou encontrar categoria(s): " + e.getMessage());
+            System.out.println("Erro ao listar ou encontrar rotulo(s): " + e.getMessage());
             return -1;
         }
     }
@@ -218,11 +218,23 @@ public class ControleTarefas {
         }
     }
 
-    /*
-     * TODO: Implementar o método que exiba os rótulos de uma tarefa, ele chama o
-     * método readRotulosByTarefa da classe ArquivoTarefa
-     */
-    private void listarRotulosPorTarefa() {
+    private void listarTarefasPorRotulo() {
+        try {
+            int idRotulo = listarRotulos(true);
 
+            if (idRotulo != -1) {
+                ArrayList<Tarefa> tarefas = arqTarefas.readByRotulo(idRotulo);
+
+                if (tarefas.isEmpty()) {
+                    System.out.println("Nenhuma tarefa encontrada para o rótulo informado.");
+                } else {
+                    for (Tarefa tarefa : tarefas) {
+                        visaoTarefas.mostraTarefa(tarefa);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar tarefas por rótulo: " + e.getMessage());
+        }
     }
 }

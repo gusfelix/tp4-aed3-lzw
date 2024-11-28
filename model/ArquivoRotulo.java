@@ -8,7 +8,6 @@ public class ArquivoRotulo extends aed3.Arquivo<Rotulo> {
     private ArvoreBMais<ParNomeId> indiceIndiretoNome;
     private ArvoreBMais<ParRotuloTarefa> indiceIndiretoRotuloTarefa;
     private ArvoreBMais<ParTarefaRotulo> indiceIndiretoTarefaRotulo;
-    private ArquivoTarefa arqTarefa;
 
     public ArquivoRotulo() throws Exception {
         super("rotulos", Rotulo.class.getConstructor());
@@ -24,7 +23,6 @@ public class ArquivoRotulo extends aed3.Arquivo<Rotulo> {
                 ParTarefaRotulo.class.getConstructor(),
                 4,
                 ".\\dados\\indiceTarefaRotulo.db");
-        arqTarefa = new ArquivoTarefa();
     }
 
     @Override
@@ -88,27 +86,5 @@ public class ArquivoRotulo extends aed3.Arquivo<Rotulo> {
             rotulos.add(super.read(parNomeId.getId()));
         }
         return rotulos;
-    }
-
-    public ArrayList<Tarefa> readTarefasByRotulo(String nome) throws Exception {
-        ArrayList<Tarefa> tarefas = new ArrayList<>();
-
-        ArrayList<ParNomeId> paresRotuloId = indiceIndiretoNome.read(new ParNomeId(nome));
-        if (paresRotuloId.isEmpty()) {
-            return tarefas;
-        }
-        ParNomeId parNomeId = paresRotuloId.get(0);
-
-        ArrayList<ParRotuloTarefa> paresRotuloTarefa = indiceIndiretoRotuloTarefa
-                .read(new ParRotuloTarefa(parNomeId.getId()));
-
-        for (ParRotuloTarefa parRotuloTarefa : paresRotuloTarefa) {
-            Tarefa tarefa = arqTarefa.read(parRotuloTarefa.getTarefa());
-            if (tarefa != null) {
-                tarefas.add(tarefa);
-            }
-        }
-
-        return tarefas;
     }
 }

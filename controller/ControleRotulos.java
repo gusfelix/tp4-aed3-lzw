@@ -42,8 +42,4 @@ public class ControleRotulos {
     public ArrayList<Rotulo> listarRotulos() throws Exception {
         return arquivoRotulo.readAll();
     }
-
-    public ArrayList<Tarefa> listarTarefas(String rotulo) throws Exception {
-        return arquivoRotulo.readTarefasByRotulo(rotulo);
-    }
 }
