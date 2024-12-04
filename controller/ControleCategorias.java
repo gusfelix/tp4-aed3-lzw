@@ -121,7 +121,7 @@ public class ControleCategorias {
         try {
             ArrayList<Categoria> categorias = arqCategorias.readAll();
             if (categorias.isEmpty()) {
-                System.out.println("Nenhuma tarefa encontrada.");
+                System.out.println("\nNenhuma tarefa encontrada.");
             } else {
                 for (Categoria categoria : categorias) {
                     visaoCategorias.mostraCategoria(categoria);

@@ -109,7 +109,7 @@ public class VisaoTarefas {
     }
 
     public int menu() {
-        System.out.println("PUCTASK 1.0");
+        System.out.println("\nPUCTASK 1.0");
         System.out.println("-----------");
         System.out.println("> Início > Tarefas");
         System.out.println("1) Incluir");

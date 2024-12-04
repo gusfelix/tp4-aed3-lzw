@@ -17,7 +17,7 @@ public class VisaoCategorias {
     }
 
     public int menu() {
-        System.out.println("PUCBOOK 1.0");
+        System.out.println("\nPUCTASK 1.0");
         System.out.println("-----------");
         System.out.println("> Início > Categorias");
         System.out.println("1) Buscar");

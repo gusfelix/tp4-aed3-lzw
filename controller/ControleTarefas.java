@@ -60,7 +60,7 @@ public class ControleTarefas {
         ArrayList<Categoria> categorias = arqCategorias.readAll();
         ArrayList<Rotulo> rotulos = arqRotulos.readAll();
         if (categorias.isEmpty()) {
-            System.out.println("Nenhuma categoria cadastrada. Cadastre uma categoria antes de incluir uma tarefa.");
+            System.out.println("\nNenhuma categoria cadastrada. Cadastre uma categoria antes de incluir uma tarefa.");
             return;
         }
 
@@ -104,7 +104,7 @@ public class ControleTarefas {
         try {
             ArrayList<Tarefa> tarefas = arqTarefas.readAllByTerms(busca);
             if (tarefas.isEmpty()) {
-                System.out.println("Nenhuma tarefa encontrada.");
+                System.out.println("\nNenhuma tarefa encontrada.");
             } else {
                 for (Tarefa tarefa : tarefas) {
                     visaoTarefas.mostraTarefa(tarefa);
@@ -167,7 +167,7 @@ public class ControleTarefas {
         try {
             ArrayList<Tarefa> tarefas = arqTarefas.readAll();
             if (tarefas.isEmpty()) {
-                System.out.println("Nenhuma tarefa encontrada.");
+                System.out.println("\nNenhuma tarefa encontrada.");
             } else {
                 for (Tarefa tarefa : tarefas) {
                     visaoTarefas.mostraTarefa(tarefa);
@@ -183,7 +183,7 @@ public class ControleTarefas {
         try {
             ArrayList<Categoria> categorias = arqCategorias.readAll();
             if (categorias.isEmpty()) {
-                System.out.println("Nenhuma categoria cadastrada. Cadastre uma categoria antes de continuar.");
+                System.out.println("\nNenhuma categoria cadastrada. Cadastre uma categoria antes de continuar.");
                 return -1;
             }
             visaoTarefas.mostrarCategorias(categorias);
@@ -231,7 +231,7 @@ public class ControleTarefas {
                 ArrayList<Tarefa> tarefas = arqTarefas.readByCategoria(idCategoria);
 
                 if (tarefas.isEmpty()) {
-                    System.out.println("Nenhuma tarefa encontrada para a categoria informada.");
+                    System.out.println("\nNenhuma tarefa encontrada para a categoria informada.");
                 } else {
                     for (Tarefa tarefa : tarefas) {
                         visaoTarefas.mostraTarefa(tarefa);
@@ -252,7 +252,7 @@ public class ControleTarefas {
                 ArrayList<Tarefa> tarefas = arqTarefas.readByRotulo(idRotulo);
 
                 if (tarefas.isEmpty()) {
-                    System.out.println("Nenhuma tarefa encontrada para o rótulo informado.");
+                    System.out.println("\nNenhuma tarefa encontrada para o rótulo informado.");
                 } else {
                     for (Tarefa tarefa : tarefas) {
                         visaoTarefas.mostraTarefa(tarefa);
