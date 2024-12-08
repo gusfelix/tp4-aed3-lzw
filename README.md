@@ -7,11 +7,11 @@
 
 ### Descrição do Trabalho
 
-Nosso trabalho consiste na implementação de um sistema de gerenciamento de tarefas, categorias e rótulos utilizando estruturas de dados avançadas como Hash Extensível, Árvores B+ e Lista Invertida. O sistema permite a criação, leitura, atualização e exclusão (CRUD) de tarefas, categorias e rótulos, além de manter índices diretos e indiretos para otimizar as operações de busca e manipulação de dados.
+Nosso trabalho consiste na implementação de um sistema de backup compactado dos arquivos de dados e índices utilizando o algoritmo LZW. O sistema permite a criação de backups compactados e a recuperação dos mesmos, possibilitando ao usuário escolher a versão a ser recuperada.
 
 ### Experiência de Desenvolvimento
 
-Durante o desenvolvimento deste projeto, enfrentamos diversos desafios que nos proporcionaram um grande aprendizado. A integração das estruturas de dados avançadas, como Hash Extensível e Árvores B+, com as operações de CRUD e a criação de índices diretos e indiretos para otimizar as buscas foram tarefas complexas, mas extremamente enriquecedoras. Embora as estruturas tenham sido fornecidas pelo professor, tivemos que entender seu funcionamento e aplicá-las corretamente no nosso sistema.
+Durante o desenvolvimento deste projeto, enfrentamos diversos desafios que nos proporcionaram um grande aprendizado. A integração do algoritmo LZW para compactação e descompactação dos arquivos, bem como a implementação de um sistema de backup e recuperação, foram tarefas complexas, mas extremamente enriquecedoras.
 
 ### Classes e Métodos
 
@@ -19,159 +19,100 @@ Durante o desenvolvimento deste projeto, enfrentamos diversos desafios que nos p
 
 * **main(String args)** : Método principal que inicializa o sistema, exibe o menu e executa as operações selecionadas.
 
-#### `MenuTarefas.java`
+#### `Arquivo.java`
 
-* **MenuTarefas()** : Construtor que inicializa o menu de tarefas.
-* **menu()** : Exibe o menu de tarefas e executa as operações selecionadas.
-* **incluirCategoria()** : Inclui uma nova categoria.
-* **buscarCategoria()** : Busca uma categoria pelo nome.
-* **alterarCategoria()** : Altera uma categoria existente.
-* **excluirCategoria()** : Exclui uma categoria pelo nome.
+* **Arquivo()** : Construtor que inicializa o arquivo genérico.
+* **abrir(String nomeArquivo)** : Abre um arquivo.
+* **fechar()** : Fecha o arquivo.
+* **ler(int posicao)** : Lê um registro do arquivo.
+* **escrever(int posicao, byte[] dados)** : Escreve um registro no arquivo.
+* **tamanho()** : Retorna o tamanho do arquivo.
 
-#### `VisaoTarefas.java`
+#### `ArvoreBMais.java`
 
-* **VisaoTarefas()** : Construtor que inicializa a visão de tarefas.
-* **menu()** : Exibe o menu de tarefas e executa as operações selecionadas.
-* **leTarefa(int idCategoria)** : Lê os dados de uma nova tarefa.
-* **editaTarefa(Tarefa tarefa, ArrayList<Categoria> categorias)** : Edita os dados de uma tarefa existente.
-* **adicionaRotulosTarefa(ArrayList<Rotulo> rotulos)** : Adiciona rótulos a uma tarefa.
-* **removeRotulosTarefa(ArrayList<Rotulo> rotulosAtuais)** : Remove rótulos de uma tarefa.
-* **leBusca()** : Lê os termos de busca.
-* **leIdTarefa()** : Lê o ID de uma tarefa.
-* **mostraTarefa(Tarefa tarefa)** : Mostra os dados de uma tarefa.
-* **mostrarCategorias(ArrayList<Categoria> categorias)** : Mostra a lista de categorias.
-* **selecionaCategoria(int totalCategorias)** : Seleciona uma categoria.
-* **mostrarRotulos(ArrayList<Rotulo> rotulos)** : Mostra a lista de rótulos.
-* **selecionaRotulo(int totalRotulos)** : Seleciona um rótulo.
-* **selecionaMultiplosRotulos(int totalRotulos)** : Seleciona múltiplos rótulos.
+* **ArvoreBMais()** : Construtor que inicializa a árvore B+.
+* **inserir(int chave, int endereco)** : Insere uma chave e o endereço na árvore B+.
+* **buscar(int chave)** : Busca o endereço associado a uma chave.
+* **remover(int chave)** : Remove uma chave e o endereço da árvore B+.
 
-#### `VisaoRotulos.java`
+#### `HashExtensivel.java`
 
-* **VisaoRotulos()** : Construtor que inicializa a visão de rótulos.
-* **menu()** : Exibe o menu de rótulos e executa as operações selecionadas.
-* **incluirRotulo()** : Inclui um novo rótulo.
-* **buscarRotulo()** : Busca um rótulo pelo nome.
-* **alterarRotulo()** : Altera um rótulo existente.
-* **excluirRotulo()** : Exclui um rótulo pelo nome.
-* **listarRotulos()** : Lista todos os rótulos.
+* **HashExtensivel()** : Construtor que inicializa a tabela hash extensível.
+* **inserir(int chave, int endereco)** : Insere uma chave e o endereço na tabela hash.
+* **buscar(int chave)** : Busca o endereço associado a uma chave.
+* **remover(int chave)** : Remove uma chave e o endereço da tabela hash.
 
-#### `VisaoCategorias.java`
+#### `ListaInvertida.java`
 
-* **VisaoCategorias()** : Construtor que inicializa a visão de categorias.
-* **menu()** : Exibe o menu de categorias e executa as operações selecionadas.
+* **ListaInvertida()** : Construtor que inicializa a lista invertida.
+* **inserir(String termo, int idTarefa)** : Insere um termo e o ID da tarefa na lista invertida.
+* **buscar(String termo)** : Busca tarefas associadas a um termo.
+* **remover(String termo, int idTarefa)** : Remove um termo e o ID da tarefa da lista invertida.
+
+#### `LZW.java`
+
+* **codifica(byte[] dados)** : Compacta os dados usando o algoritmo LZW.
+* **decodifica(byte[] dadosCompactados)** : Descompacta os dados usando o algoritmo LZW.
+
+#### `ParIDEndereco.java`
+
+* **ParIDEndereco(int id, long endereco)** : Construtor que inicializa o par ID-endereço.
+* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
+
+#### `Registro.java`
+
+* **Registro()** : Construtor que inicializa o registro genérico.
+* **inserir(int chave, int endereco)** : Insere uma chave e o endereço no registro.
+* **buscar(int chave)** : Busca o endereço associado a uma chave no registro.
+* **remover(int chave)** : Remove uma chave e o endereço do registro.
+
+#### `RegistroArvoreBMais.java`
+
+* **RegistroArvoreBMais()** : Construtor que inicializa o registro da árvore B+.
+* **inserir(int chave, int endereco)** : Insere uma chave e o endereço no registro.
+* **buscar(int chave)** : Busca o endereço associado a uma chave no registro.
+* **remover(int chave)** : Remove uma chave e o endereço do registro.
+
+#### `RegistroHashExtensivel.java`
+
+* **RegistroHashExtensivel()** : Construtor que inicializa o registro da tabela hash extensível.
+* **inserir(int chave, int endereco)** : Insere uma chave e o endereço no registro.
+* **buscar(int chave)** : Busca o endereço associado a uma chave no registro.
+* **remover(int chave)** : Remove uma chave e o endereço do registro.
+
+#### `VetorDeBits.java`
+
+* **VetorDeBits()** : Construtor que inicializa o vetor de bits.
+* **setBit(int posicao, boolean valor)** : Define o valor de um bit na posição especificada.
+* **getBit(int posicao)** : Retorna o valor de um bit na posição especificada.
+
+#### `ControleBackups.java`
+
+* **ControleBackups()** : Construtor que inicializa o controle de backups.
+* **iniciar()** : Inicia o controle de backups, exibindo o menu e executando as operações selecionadas.
+* **fazerBackup()** : Cria um novo backup compactado usando o algoritmo LZW.
+* **restaurarBackup()** : Restaura um backup existente descompactando os arquivos.
+* **excluirBackup()** : Exclui um backup existente.
+
+#### `ControleCategorias.java`
+
+* **ControleCategorias()** : Construtor que inicializa os arquivos de categorias e tarefas e a visão de categorias.
+* **iniciar()** : Inicia o controle de categorias, exibindo o menu e executando as operações selecionadas.
 * **incluirCategoria()** : Inclui uma nova categoria.
 * **buscarCategoria()** : Busca uma categoria pelo nome.
 * **alterarCategoria()** : Altera uma categoria existente.
 * **excluirCategoria()** : Exclui uma categoria pelo nome.
 * **listarCategorias()** : Lista todas as categorias.
 
-#### `TextProcessor.java`
+#### `ControleRotulos.java`
 
-* **TextProcessor()** : Construtor que inicializa o processador de texto.
-* **removerStopWords(String texto)** : Remove as stop words de um texto.
-* **tokenizar(String texto)** : Tokeniza um texto em palavras.
-
-#### `stopWords.txt`
-
-Arquivo contendo uma lista de stop words que serão removidas dos textos processados.
-
-#### `Tarefa.java`
-
-* **Tarefa()** : Construtor padrão.
-* **Tarefa(int idCategoria, String nome, LocalDate criacao, short status, short prioridade)** : Construtor com parâmetros.
-* **Tarefa(int id, int idCategoria, String nome, LocalDate criacao, LocalDate conclusao, short status, short prioridade)** : Construtor completo.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto Tarefa.
-* **toString()** : Retorna uma representação em string do objeto.
-
-#### `Rotulo.java`
-
-* **Rotulo()** : Construtor padrão.
-* **Rotulo(int id, String rotulo)** : Construtor com parâmetros.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto Rotulo.
-* **toString()** : Retorna uma representação em string do objeto.
-
-#### `ParTarefaRotulo.java`
-
-* **ParTarefaRotulo(int idTarefa, int idRotulo)** : Construtor que inicializa o par tarefa-rótulo.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParTarefaRotulo.
-* **compareTo(ParTarefaRotulo a)** : Compara dois objetos ParTarefaRotulo.
-* **clone()** : Clona o objeto ParTarefaRotulo.
-
-#### `ParRotuloTarefa.java`
-
-* **ParRotuloTarefa(int idRotulo, int idTarefa)** : Construtor que inicializa o par rótulo-tarefa.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParRotuloTarefa.
-* **compareTo(ParRotuloTarefa a)** : Compara dois objetos ParRotuloTarefa.
-* **clone()** : Clona o objeto ParRotuloTarefa.
-
-#### `ParNomeId.java`
-
-* **ParNomeId(String nome, int id)** : Construtor que inicializa o par nome-ID.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParNomeId.
-* **compareTo(ParNomeId a)** : Compara dois objetos ParNomeId.
-* **clone()** : Clona o objeto ParNomeId.
-
-#### `ParCategoriaId.java`
-
-* **ParCategoriaId(int idCategoria, int id)** : Construtor que inicializa o par categoria-ID.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto ParCategoriaId.
-* **compareTo(ParCategoriaId a)** : Compara dois objetos ParCategoriaId.
-* **clone()** : Clona o objeto ParCategoriaId.
-
-#### `Categoria.java`
-
-* **Categoria()** : Construtor padrão.
-* **Categoria(int id, String nome)** : Construtor com parâmetros.
-* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
-* **toByteArray()** : Serializa o objeto em um array de bytes.
-* **fromByteArray(byte[] b)** : Desserializa um array de bytes em um objeto Categoria.
-* **toString()** : Retorna uma representação em string do objeto.
-
-#### `ArquivoTarefa.java`
-
-* **ArquivoTarefa()** : Construtor que inicializa o arquivo de tarefas e os índices indiretos.
-* **create(Tarefa t)** : Cria uma nova tarefa.
-* **create(Tarefa t, ArrayList<Integer> rotulos)** : Cria uma nova tarefa com rótulos.
-* **read(int id)** : Lê uma tarefa pelo ID.
-* **delete(int id)** : Exclui uma tarefa pelo ID.
-* **update(Tarefa novaTarefa)** : Atualiza uma tarefa existente.
-* **readAll()** : Lê todas as tarefas.
-* **readByCategoria(int categoriaId)** : Lê tarefas por categoria.
-* **readByRotulo(int rotuloId)** : Lê tarefas por rótulo.
-* **readByTermo(String termo)** : Lê tarefas por termo usando índice invertido.
-* **readRotulosByTarefa(int tarefaId)** : Lê os rótulos associados a uma tarefa.
-* **newParTarefaRotulo(int idTarefa, int idRotulo)** : Cria um novo par tarefa-rótulo.
-* **deleteParTarefaRotulo(int idTarefa, int idRotulo)** : Exclui um par tarefa-rótulo.
-
-#### `ArquivoRotulo.java`
-
-* **ArquivoRotulo()** : Construtor que inicializa o arquivo de rótulos e os índices indiretos.
-* **create(Rotulo r)** : Cria um novo rótulo.
-* **read(String nome)** : Lê um rótulo pelo nome.
-* **delete(String nome)** : Exclui um rótulo pelo nome.
-* **update(Rotulo novoRotulo)** : Atualiza um rótulo existente.
-* **readAll()** : Lê todos os rótulos.
-
-#### `ArquivoCategoria.java`
-
-* **ArquivoCategoria()** : Construtor que inicializa o arquivo de categorias e o índice indireto de nomes.
-* **create(Categoria c)** : Cria uma nova categoria.
-* **read(String nome)** : Lê uma categoria pelo nome.
-* **delete(String nome)** : Exclui uma categoria pelo nome.
-* **update(Categoria novaCategoria)** : Atualiza uma categoria existente.
-* **readAll()** : Lê todas as categorias.
+* **ControleRotulos()** : Construtor que inicializa os arquivos de rótulos e tarefas e a visão de rótulos.
+* **iniciar()** : Inicia o controle de rótulos, exibindo o menu e executando as operações selecionadas.
+* **incluirRotulo()** : Inclui um novo rótulo.
+* **buscarRotulo()** : Busca um rótulo pelo nome.
+* **alterarRotulo()** : Altera um rótulo existente.
+* **excluirRotulo()** : Exclui um rótulo pelo nome.
+* **listarRotulos()** : Lista todos os rótulos.
 
 #### `ControleTarefas.java`
 
@@ -184,108 +125,118 @@ Arquivo contendo uma lista de stop words que serão removidas dos textos process
 * **listarTarefas()** : Lista todas as tarefas.
 * **listarTarefasPorCategoria()** : Lista tarefas por categoria.
 * **listarTarefasPorRotulo()** : Lista tarefas por rótulo.
-* **listarTarefasPorTermo()** : Lista tarefas por termo.
 
-#### `ControleRotulos.java`
+#### `ArquivoCategoria.java`
 
-* **ControleRotulos()** : Construtor que inicializa os arquivos de rótulos e tarefas e a visão de rótulos.
-* **iniciar()** : Inicia o controle de rótulos, exibindo o menu e executando as operações selecionadas.
-* **incluirRotulo()** : Inclui um novo rótulo.
-* **buscarRotulo()** : Busca um rótulo pelo nome.
-* **alterarRotulo()** : Altera um rótulo existente.
-* **excluirRotulo()** : Exclui um rótulo pelo nome.
-* **listarRotulos()** : Lista todos os rótulos.
+* **ArquivoCategoria()** : Construtor que inicializa o arquivo de categorias e o índice indireto de nomes.
+* **create(Categoria c)** : Cria uma nova categoria.
+* **read(String nome)** : Lê uma categoria pelo nome.
+* **delete(String nome)** : Exclui uma categoria pelo nome.
+* **update(Categoria novaCategoria)** : Atualiza uma categoria existente.
+* **readAll()** : Lê todas as categorias.
 
-#### `ControleCategorias.java`
+#### `ArquivoRotulo.java`
 
-* **ControleCategorias()** : Construtor que inicializa os arquivos de categorias e tarefas e a visão de categorias.
-* **iniciar()** : Inicia o controle de categorias, exibindo o menu e executando as operações selecionadas.
-* **incluirCategoria()** : Inclui uma nova categoria.
-* **buscarCategoria()** : Busca uma categoria pelo nome.
-* **alterarCategoria()** : Altera uma categoria existente.
-* **excluirCategoria()** : Exclui uma categoria pelo nome.
-* **listarCategorias()** : Lista todas as categorias.
+* **ArquivoRotulo()** : Construtor que inicializa o arquivo de rótulos e os índices indiretos.
+* **create(Rotulo r)** : Cria um novo rótulo.
+* **read(String nome)** : Lê um rótulo pelo nome.
+* **delete(String nome)** : Exclui um rótulo pelo nome.
+* **update(Rotulo novoRotulo)** : Atualiza um rótulo existente.
+* **readAll()** : Lê todos os rótulos.
 
-#### `RegistroHashExtensivel.java`
+#### `ArquivoTarefa.java`
 
-* **RegistroHashExtensivel()** : Construtor que inicializa o registro da tabela hash extensível.
-* **inserir(int chave, int endereco)** : Insere uma chave e o endereço no registro.
-* **buscar(int chave)** : Busca o endereço associado a uma chave no registro.
-* **remover(int chave)** : Remove uma chave e o endereço do registro.
+* **ArquivoTarefa()** : Construtor que inicializa o arquivo de tarefas e os índices indiretos.
+* **create(Tarefa t)** : Cria uma nova tarefa.
+* **read(String nome)** : Lê uma tarefa pelo nome.
+* **delete(String nome)** : Exclui uma tarefa pelo nome.
+* **update(Tarefa novaTarefa)** : Atualiza uma tarefa existente.
+* **readAll()** : Lê todas as tarefas.
 
-#### `RegistroArvoreBMais.java`
+#### `Backup.java`
 
-* **RegistroArvoreBMais()** : Construtor que inicializa o registro da árvore B+.
-* **inserir(int chave, int endereco)** : Insere uma chave e o endereço no registro.
-* **buscar(int chave)** : Busca o endereço associado a uma chave no registro.
-* **remover(int chave)** : Remove uma chave e o endereço do registro.
+* **Backup()** : Construtor que inicializa o backup.
+* **fazerBackup()** : Cria um novo backup compactado usando o algoritmo LZW.
+* **restaurarBackup()** : Restaura um backup existente descompactando os arquivos.
+* **listarBackups()** : Lista todos os backups disponíveis.
 
-#### `Registro.java`
+#### `Categoria.java`
 
-* **Registro()** : Construtor que inicializa o registro genérico.
-* **inserir(int chave, int endereco)** : Insere uma chave e o endereço no registro.
-* **buscar(int chave)** : Busca o endereço associado a uma chave no registro.
-* **remover(int chave)** : Remove uma chave e o endereço do registro.
-
-#### `ParIDEndereco.java`
-
-* **ParIDEndereco(int id, int endereco)** : Construtor que inicializa o par ID-endereço.
+* **Categoria()** : Construtor que inicializa a categoria.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-#### `ListaInvertida.java`
+#### `ParCategoriaId.java`
 
-* **ListaInvertida()** : Construtor que inicializa a lista invertida.
-* **inserir(String termo, int idTarefa)** : Insere um termo e o ID da tarefa na lista invertida.
-* **buscar(String termo)** : Busca tarefas associadas a um termo.
-* **remover(String termo, int idTarefa)** : Remove um termo e o ID da tarefa da lista invertida.
-
-#### `HashExtensivel.java`
-
-* **HashExtensivel()** : Construtor que inicializa a tabela hash extensível.
-* **inserir(int chave, int endereco)** : Insere uma chave e o endereço na tabela hash.
-* **buscar(int chave)** : Busca o endereço associado a uma chave.
-* **remover(int chave)** : Remove uma chave e o endereço da tabela hash.
-
-#### `ElementoLista.java`
-
-* **ElementoLista(int id, int proximo)** : Construtor que inicializa o elemento da lista.
+* **ParCategoriaId(int id, String nome)** : Construtor que inicializa o par categoria-ID.
 * **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-#### `ArvoreBMais.java`
+#### `ParNomeId.java`
 
-* **ArvoreBMais()** : Construtor que inicializa a árvore B+.
-* **inserir(int chave, int endereco)** : Insere uma chave e o endereço na árvore B+.
-* **buscar(int chave)** : Busca o endereço associado a uma chave.
-* **remover(int chave)** : Remove uma chave e o endereço da árvore B+.
+* **ParNomeId(int id, String nome)** : Construtor que inicializa o par nome-ID.
+* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-#### `Arquivo.java`
+#### `ParRotuloTarefa.java`
 
-* **Arquivo()** : Construtor que inicializa o arquivo genérico.
-* **abrir(String nomeArquivo)** : Abre um arquivo.
-* **fechar()** : Fecha o arquivo.
-* **ler(int posicao)** : Lê um registro do arquivo.
-* **escrever(int posicao, byte[] dados)** : Escreve um registro no arquivo.
-* **tamanho()** : Retorna o tamanho do arquivo.
+* **ParRotuloTarefa(int idRotulo, int idTarefa)** : Construtor que inicializa o par rótulo-tarefa.
+* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-### Perguntas
+#### `ParTarefaRotulo.java`
 
-1. **O índice invertido com os termos das tarefas foi criado usando a classe ListaInvertida?**
-  Sim, o índice invertido com os termos das tarefas foi criado utilizando a classe `ListaInvertida`. Esta classe permite inserir termos e IDs de tarefas, buscar tarefas associadas a um termo e remover termos e IDs de tarefas da lista invertida.
+* **ParTarefaRotulo(int idTarefa, int idRotulo)** : Construtor que inicializa o par tarefa-rótulo.
+* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-2. **O CRUD de rótulos foi implementado?**
-  Sim, o CRUD de rótulos foi implementado. A classe `ArquivoRotulo` contém métodos para criar (`create`), ler (`read`), atualizar (`update`) e excluir (`delete`) rótulos. Além disso, é possível listar todos os rótulos e ler tarefas associadas a um rótulo específico.
+#### `Rotulo.java`
 
-3. **No arquivo de tarefas, os rótulos são incluídos, alterados e excluídos em uma árvore B+?**
-  Sim, no arquivo de tarefas, os rótulos são incluídos, alterados e excluídos utilizando uma árvore B+. A classe `ArvoreBMais` é responsável por gerenciar a inserção, busca e remoção de chaves e endereços, garantindo uma estrutura eficiente para essas operações.
+* **Rotulo()** : Construtor que inicializa o rótulo.
+* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-4. **É possível buscar tarefas por palavras usando o índice invertido?**
-  Sim, é possível buscar tarefas por palavras utilizando o índice invertido. A classe `ListaInvertida` permite buscar tarefas associadas a um termo específico, facilitando a localização de tarefas com base em palavras-chave.
+#### `Tarefa.java`
 
-5. **É possível buscar tarefas por rótulos usando uma árvore B+?**
-  Sim, é possível buscar tarefas por rótulos utilizando uma árvore B+. A classe `ArvoreBMais` permite buscar endereços associados a chaves específicas, o que facilita a localização de tarefas com base em rótulos.
+* **Tarefa()** : Construtor que inicializa a tarefa.
+* **Getters e Setters** : Métodos para acessar e modificar os atributos da classe.
 
-6. **O trabalho está completo?**
-  Sim, o trabalho está completo. Todas as funcionalidades especificadas foram implementadas, incluindo a criação, leitura, atualização e exclusão de tarefas, categorias e rótulos, além da utilização de estruturas de dados avançadas para otimizar as operações de busca e manipulação de dados.
+#### `TextProcessor.java`
 
-7. **O trabalho é original e não a cópia de um trabalho de um colega?**
-  Sim, o trabalho é original e não é a cópia de um trabalho de um colega. Todo o código foi desenvolvido pela nossa equipe, seguindo as especificações e requisitos do projeto.
+* **TextProcessor()** : Construtor que inicializa o processador de texto.
+* **processarTexto(String texto)** : Processa o texto removendo stop words e normalizando os termos.
+
+#### `VisaoBackups.java`
+
+* **VisaoBackups()** : Construtor que inicializa a visão de backups.
+* **exibirMenu()** : Exibe o menu de backups.
+* **exibirBackups()** : Exibe a lista de backups disponíveis.
+
+#### `VisaoCategorias.java`
+
+* **VisaoCategorias()** : Construtor que inicializa a visão de categorias.
+* **exibirMenu()** : Exibe o menu de categorias.
+* **exibirCategorias()** : Exibe a lista de categorias.
+
+#### `VisaoRotulos.java`
+
+* **VisaoRotulos()** : Construtor que inicializa a visão de rótulos.
+* **exibirMenu()** : Exibe o menu de rótulos.
+* **exibirRotulos()** : Exibe a lista de rótulos.
+
+#### `VisaoTarefas.java`
+
+* **VisaoTarefas()** : Construtor que inicializa a visão de tarefas.
+* **exibirMenu()** : Exibe o menu de tarefas.
+* **exibirTarefas()** : Exibe a lista de tarefas.
+
+### Checklist
+
+- **Há uma rotina de compactação usando o algoritmo LZW para fazer backup dos arquivos?**
+  Sim, implementamos uma rotina de compactação que utiliza o algoritmo LZW para fazer backup dos arquivos de dados e índices. Cada arquivo é tratado como um vetor de bytes e compactado sequencialmente em um único arquivo de backup.
+- **Há uma rotina de descompactação usando o algoritmo LZW para recuperação dos arquivos?**
+  Sim, implementamos uma rotina de descompactação que utiliza o algoritmo LZW para recuperar os arquivos de dados e índices a partir do backup compactado. O usuário pode escolher a versão do backup a ser recuperada.
+- **O usuário pode escolher a versão a recuperar?**
+  Sim, o sistema permite que o usuário escolha a versão do backup a ser recuperada. Todas as versões de backup são listadas e o usuário pode selecionar a desejada para recuperação.
+- **Qual foi a taxa de compressão alcançada por esse backup?**
+  A taxa de compressão alcançada foi de aproximadamente 26.95%. Comparando o tamanho dos arquivos originais (2092 bytes) com os arquivos compactados (1528 bytes), observamos uma redução significativa no tamanho dos dados armazenados.
+- **O trabalho está funcionando corretamente?**
+  Sim, o trabalho está funcionando corretamente. Todas as funcionalidades de compactação, descompactação, criação e recuperação de backups foram testadas e estão operando conforme o esperado.
+- **O trabalho está completo?**
+  Sim, o trabalho está completo. Implementamos todas as funcionalidades requisitadas, incluindo a compactação e descompactação dos arquivos, a criação de backups e a recuperação de versões específicas.
+- **O trabalho é original e não a cópia de um trabalho de um colega?**
+  Sim, o trabalho é original e foi desenvolvido inteiramente pelo nosso grupo.
